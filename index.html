@@ -1,538 +1,546 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Dashboard Admin - Sistema Trimax</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Dashboard Admin - Sistema Trimax</title>
 
-  <!-- Bootstrap -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-  <!-- Bootstrap Icons -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
+
 <body>
 
-  <!-- SIDEBAR -->
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-      <div class="logo">
-        <i class="bi bi-shield-check"></i>
-        <div class="logo-text">
-          <h4>TRIMAX</h4>
-          <p>Sistema de Tickets</p>
-        </div>
-      </div>
-    </div>
-
-    <nav class="menu">
-      <div class="menu-section">Principal</div>
-      <a class="menu-item active" href="#">
-        <i class="bi bi-speedometer2"></i>
-        <span>Dashboard</span>
-      </a>
-      <a class="menu-item" href="#">
-        <i class="bi bi-ticket-perforated"></i>
-        <span>Tickets</span>
-      </a>
-
-      <div class="menu-section">Monitoreo</div>
-      <a class="menu-item" href="#">
-        <i class="bi bi-display"></i>
-        <span>Monitoreo de Sedes</span>
-      </a>
-      <a class="menu-item" href="#">
-        <i class="bi bi-bell"></i>
-        <span>Alarmas</span>
-      </a>
-
-      <div class="menu-section">Administración</div>
-      <a class="menu-item" href="#">
-        <i class="bi bi-building"></i>
-        <span>Sedes</span>
-      </a>
-      <a class="menu-item" href="#">
-        <i class="bi bi-people"></i>
-        <span>Usuarios</span>
-      </a>
-      <a class="menu-item" href="#">
-        <i class="bi bi-gear"></i>
-        <span>Configuración</span>
-      </a>
-
-      <div class="menu-section">Reportes</div>
-      <a class="menu-item" href="#">
-        <i class="bi bi-graph-up"></i>
-        <span>Estadísticas</span>
-      </a>
-      <a class="menu-item" href="#">
-        <i class="bi bi-file-earmark-text"></i>
-        <span>Reportes SLA</span>
-      </a>
-    </nav>
-
-    <div class="user-info">
-      <div class="avatar">A</div>
-      <div class="user-details">
-        <h6>Admin Sistema</h6>
-        <p>Administrador</p>
-      </div>
-      <div style="margin-left:auto;">
-        <a href="#" title="Cerrar sesión" style="color:rgba(255,255,255,0.9)">
-          <i class="bi bi-box-arrow-right" style="font-size:18px"></i>
-        </a>
-      </div>
-    </div>
-  </aside>
-
-  <!-- OVERLAY MOBILE -->
-  <div class="overlay" id="overlay"></div>
-
-  <!-- MAIN -->
-  <div class="main">
-    <!-- TOPBAR -->
-    <div class="topbar">
-      <div class="container-fluid">
-        <div class="row align-items-center g-3">
-          <!-- Columna izquierda: Toggle + Título -->
-          <div class="col-12 col-lg-6">
-            <div class="d-flex align-items-center gap-3">
-              <button class="mobile-toggle" id="btnToggle">
-                <i class="bi bi-list"></i>
-              </button>
-              <div class="topbar-title">
-                <h1>
-                  <i class="bi bi-speedometer2"></i> 
-                  <span>Dashboard</span>
-                </h1>
-                <div class="subtitle muted">Panel de control y métricas del sistema</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Columna derecha: Última conexión + Acciones -->
-          <div class="col-12 col-lg-6">
-            <div class="d-flex align-items-center justify-content-lg-end gap-2 flex-wrap">
-              <div class="last-connection d-none d-xl-block me-2">
-                Última conexión: <strong>21 Nov 2025 — 09:45</strong>
-              </div>
-              <button class="btn-outline">
-                <i class="bi bi-download"></i>
-                <span class="d-none d-sm-inline">Exportar</span>
-              </button>
-              <button class="btn-primary">
-                <i class="bi bi-plus-circle"></i>
-                <span class="d-none d-sm-inline">Nuevo Ticket</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- CONTENT -->
-    <div class="content">
-
-      <!-- STATS GRID -->
-      <div class="row g-3 g-lg-4">
-        <!-- Card 1 -->
-        <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
-          <div class="card">
-            <div class="metric-top">
-              <div>
-                <div class="metric-label">Total Tickets</div>
-                <div class="metric-value" data-target="156" id="m1">0</div>
-                <div class="metric-foot">
-                  <span class="pill positive">
-                    <i class="bi bi-arrow-up"></i> +12%
-                  </span>
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <i class="bi bi-shield-check"></i>
+                <div class="logo-text">
+                    <h4>TRIMAX</h4>
+                    <p>Sistema de Tickets</p>
                 </div>
-              </div>
-              <div class="metric-icon">
+            </div>
+        </div>
+
+        <nav class="menu">
+            <div class="menu-section">Principal</div>
+            <a class="menu-item active" href="#">
+                <i class="bi bi-speedometer2"></i>
+                <span>Dashboard</span>
+            </a>
+            <a class="menu-item" href="#">
                 <i class="bi bi-ticket-perforated"></i>
-              </div>
-            </div>
-          </div>
-        </div>
+                <span>Tickets</span>
+            </a>
 
-        <!-- Card 2 -->
-        <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
-          <div class="card">
-            <div class="metric-top">
-              <div>
-                <div class="metric-label">Abiertos</div>
-                <div class="metric-value" data-target="23" id="m2">0</div>
-                <div class="metric-foot">
-                  <span class="pill negative">
-                    <i class="bi bi-arrow-down"></i> -5%
-                  </span>
-                </div>
-              </div>
-              <div class="metric-icon">
-                <i class="bi bi-hourglass-split"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Card 3 -->
-        <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
-          <div class="card">
-            <div class="metric-top">
-              <div>
-                <div class="metric-label">En Proceso</div>
-                <div class="metric-value" data-target="45" id="m3">0</div>
-                <div class="metric-foot">
-                  <span class="pill positive">
-                    <i class="bi bi-arrow-up"></i> +8%
-                  </span>
-                </div>
-              </div>
-              <div class="metric-icon">
-                <i class="bi bi-arrow-repeat"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Card 4 -->
-        <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
-          <div class="card">
-            <div class="metric-top">
-              <div>
-                <div class="metric-label">Resueltos</div>
-                <div class="metric-value" data-target="88" id="m4">0</div>
-                <div class="metric-foot">
-                  <span class="pill positive">
-                    <i class="bi bi-arrow-up"></i> +15%
-                  </span>
-                </div>
-              </div>
-              <div class="metric-icon">
-                <i class="bi bi-check-circle"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Card 5 -->
-        <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
-          <div class="card">
-            <div class="metric-top">
-              <div>
-                <div class="metric-label">Críticos</div>
-                <div class="metric-value" data-target="5" id="m5">0</div>
-                <div class="metric-foot">
-                  <span class="pill negative">
-                    <i class="bi bi-exclamation-triangle"></i> +2
-                  </span>
-                </div>
-              </div>
-              <div class="metric-icon">
-                <i class="bi bi-exclamation-triangle"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Card 6 -->
-        <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
-          <div class="card">
-            <div class="metric-top">
-              <div>
-                <div class="metric-label">Satisfacción</div>
-                <div class="metric-value" data-target="4.8" id="m6">0</div>
-                <div class="metric-foot">
-                  <span class="pill positive">
-                    <i class="bi bi-star"></i> +0.3
-                  </span>
-                </div>
-              </div>
-              <div class="metric-icon">
-                <i class="bi bi-star"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ADDITIONAL STATS ROW -->
-      <div class="row g-3 g-lg-4 mt-1">
-        <div class="col-12 col-sm-6 col-lg-3">
-          <div class="card">
-            <div class="metric-label">Sedes Online</div>
-            <div class="d-flex align-items-center justify-content-between mt-2">
-              <div style="font-size:20px;font-weight:800;color:var(--color-10)">12 / 15</div>
-              <div class="metric-icon" style="width:44px;height:44px;">
+            <div class="menu-section">Monitoreo</div>
+            <a class="menu-item" href="#">
                 <i class="bi bi-display"></i>
-              </div>
+                <span>Monitoreo de Sedes</span>
+            </a>
+            <a class="menu-item" href="#">
+                <i class="bi bi-bell"></i>
+                <span>Alarmas</span>
+            </a>
+
+            <div class="menu-section">Administración</div>
+            <a class="menu-item" href="#">
+                <i class="bi bi-building"></i>
+                <span>Sedes</span>
+            </a>
+            <a class="menu-item" href="#">
+                <i class="bi bi-people"></i>
+                <span>Usuarios</span>
+            </a>
+            <a class="menu-item" href="#">
+                <i class="bi bi-gear"></i>
+                <span>Configuración</span>
+            </a>
+
+            <div class="menu-section">Reportes</div>
+            <a class="menu-item" href="#">
+                <i class="bi bi-graph-up"></i>
+                <span>Estadísticas</span>
+            </a>
+            <a class="menu-item" href="#">
+                <i class="bi bi-file-earmark-text"></i>
+                <span>Reportes SLA</span>
+            </a>
+        </nav>
+
+        <div class="user-info">
+            <div class="avatar">A</div>
+            <div class="user-details">
+                <h6>Admin Sistema</h6>
+                <p>Administrador</p>
             </div>
-            <div class="muted mt-2">
-              <i class="bi bi-check-circle" style="color:#06b26a;margin-right:8px"></i> 
-              80% Uptime
+            <div style="margin-left:auto;">
+                <a href="#" title="Cerrar sesión" style="color:rgba(255,255,255,0.9)">
+                    <i class="bi bi-box-arrow-right" style="font-size:18px"></i>
+                </a>
             </div>
-          </div>
+        </div>
+    </aside>
+
+    <!-- OVERLAY MOBILE -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- MAIN -->
+    <div class="main">
+        <!-- TOPBAR -->
+        <div class="topbar">
+            <div class="container-fluid">
+                <div class="row align-items-center g-3">
+                    <!-- Columna izquierda: Toggle + Título -->
+                    <div class="col-12 col-lg-6">
+                        <div class="d-flex align-items-center gap-3">
+                            <button class="mobile-toggle" id="btnToggle">
+                                <i class="bi bi-list"></i>
+                            </button>
+                            <div class="topbar-title">
+                                <h1>
+                                    <i class="bi bi-speedometer2"></i>
+                                    <span>Dashboard</span>
+                                </h1>
+                                <div class="subtitle muted">Panel de control y métricas del sistema</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Columna derecha: Última conexión + Acciones -->
+                    <div class="col-12 col-lg-6">
+                        <div class="d-flex align-items-center justify-content-lg-end gap-2 flex-wrap">
+                            <div class="last-connection d-none d-xl-block me-2">
+                                Última conexión: <strong>21 Nov 2025 — 09:45</strong>
+                            </div>
+                            <button class="btn-outline">
+                                <i class="bi bi-download"></i>
+                                <span class="d-none d-sm-inline">Exportar</span>
+                            </button>
+                            <button class="btn-primary">
+                                <i class="bi bi-plus-circle"></i>
+                                <span class="d-none d-sm-inline">Nuevo Ticket</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div class="col-12 col-sm-6 col-lg-3">
-          <div class="card">
-            <div class="metric-label">Tiempo Respuesta</div>
-            <div style="font-size:20px;font-weight:800;color:var(--color-10);margin-top:8px;">45min</div>
-            <div class="muted mt-2">
-              <i class="bi bi-arrow-down" style="color:#0b944f;margin-right:8px"></i> 
-              -15min
+        <!-- CONTENT -->
+        <div class="content">
+
+            <!-- STATS GRID -->
+            <div class="row g-3 g-lg-4">
+                <!-- Card 1 -->
+                <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
+                    <div class="card">
+                        <div class="metric-top">
+                            <div>
+                                <div class="metric-label">Total Tickets</div>
+                                <div class="metric-value" data-target="156" id="m1">0</div>
+                                <div class="metric-foot">
+                                    <span class="pill positive">
+                                        <i class="bi bi-arrow-up"></i> +12%
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="metric-icon">
+                                <i class="bi bi-ticket-perforated"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
+                    <div class="card">
+                        <div class="metric-top">
+                            <div>
+                                <div class="metric-label">Abiertos</div>
+                                <div class="metric-value" data-target="23" id="m2">0</div>
+                                <div class="metric-foot">
+                                    <span class="pill negative">
+                                        <i class="bi bi-arrow-down"></i> -5%
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="metric-icon">
+                                <i class="bi bi-hourglass-split"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
+                    <div class="card">
+                        <div class="metric-top">
+                            <div>
+                                <div class="metric-label">En Proceso</div>
+                                <div class="metric-value" data-target="45" id="m3">0</div>
+                                <div class="metric-foot">
+                                    <span class="pill positive">
+                                        <i class="bi bi-arrow-up"></i> +8%
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="metric-icon">
+                                <i class="bi bi-arrow-repeat"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
+                    <div class="card">
+                        <div class="metric-top">
+                            <div>
+                                <div class="metric-label">Resueltos</div>
+                                <div class="metric-value" data-target="88" id="m4">0</div>
+                                <div class="metric-foot">
+                                    <span class="pill positive">
+                                        <i class="bi bi-arrow-up"></i> +15%
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="metric-icon">
+                                <i class="bi bi-check-circle"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 5 -->
+                <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
+                    <div class="card">
+                        <div class="metric-top">
+                            <div>
+                                <div class="metric-label">Críticos</div>
+                                <div class="metric-value" data-target="5" id="m5">0</div>
+                                <div class="metric-foot">
+                                    <span class="pill negative">
+                                        <i class="bi bi-exclamation-triangle"></i> +2
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="metric-icon">
+                                <i class="bi bi-exclamation-triangle"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 6 -->
+                <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
+                    <div class="card">
+                        <div class="metric-top">
+                            <div>
+                                <div class="metric-label">Satisfacción</div>
+                                <div class="metric-value" data-target="4.8" id="m6">0</div>
+                                <div class="metric-foot">
+                                    <span class="pill positive">
+                                        <i class="bi bi-star"></i> +0.3
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="metric-icon">
+                                <i class="bi bi-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
 
-        <div class="col-12 col-sm-6 col-lg-3">
-          <div class="card">
-            <div class="metric-label">Tiempo Resolución</div>
-            <div style="font-size:20px;font-weight:800;color:var(--color-10);margin-top:8px;">2.5h</div>
-            <div class="muted mt-2">
-              <i class="bi bi-arrow-down" style="color:#0b944f;margin-right:8px"></i> 
-              -30min
+            <!-- ADDITIONAL STATS ROW -->
+            <div class="row g-3 g-lg-4 mt-1">
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="card">
+                        <div class="metric-label">Sedes Online</div>
+                        <div class="d-flex align-items-center justify-content-between mt-2">
+                            <div style="font-size:20px;font-weight:800;color:var(--color-10)">12 / 15</div>
+                            <div class="metric-icon" style="width:44px;height:44px;">
+                                <i class="bi bi-display"></i>
+                            </div>
+                        </div>
+                        <div class="muted mt-2">
+                            <i class="bi bi-check-circle" style="color:#06b26a;margin-right:8px"></i>
+                            80% Uptime
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="card">
+                        <div class="metric-label">Tiempo Respuesta</div>
+                        <div style="font-size:20px;font-weight:800;color:var(--color-10);margin-top:8px;">45min</div>
+                        <div class="muted mt-2">
+                            <i class="bi bi-arrow-down" style="color:#0b944f;margin-right:8px"></i>
+                            -15min
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="card">
+                        <div class="metric-label">Tiempo Resolución</div>
+                        <div style="font-size:20px;font-weight:800;color:var(--color-10);margin-top:8px;">2.5h</div>
+                        <div class="muted mt-2">
+                            <i class="bi bi-arrow-down" style="color:#0b944f;margin-right:8px"></i>
+                            -30min
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="card">
+                        <div class="metric-label">Alarmas Activas</div>
+                        <div style="font-size:20px;font-weight:800;color:var(--color-10);margin-top:8px;">8</div>
+                        <div class="muted mt-2" style="color:#b45309;">
+                            <i class="bi bi-bell" style="margin-right:8px"></i>
+                            +3 hoy
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
 
-        <div class="col-12 col-sm-6 col-lg-3">
-          <div class="card">
-            <div class="metric-label">Alarmas Activas</div>
-            <div style="font-size:20px;font-weight:800;color:var(--color-10);margin-top:8px;">8</div>
-            <div class="muted mt-2" style="color:#b45309;">
-              <i class="bi bi-bell" style="margin-right:8px"></i> 
-              +3 hoy
+            <!-- TABLE -->
+            <div class="table-card">
+                <div class="card">
+                    <div class="table-top">
+                        <h5>
+                            <i class="bi bi-ticket-perforated" style="color:var(--color-6)"></i>
+                            Tickets Recientes
+                        </h5>
+                        <div class="d-flex gap-2 flex-wrap">
+                            <button class="btn-outline">
+                                <i class="bi bi-filter"></i>
+                                <span class="d-none d-sm-inline">Filtrar</span>
+                            </button>
+                            <button class="btn-outline">
+                                <i class="bi bi-download"></i>
+                                <span class="d-none d-sm-inline">Exportar</span>
+                            </button>
+                            <button class="btn-primary">
+                                <i class="bi bi-plus-circle"></i>
+                                <span class="d-none d-sm-inline">Nuevo</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="custom-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Título</th>
+                                    <th>Cliente</th>
+                                    <th>Prioridad</th>
+                                    <th>Estado</th>
+                                    <th>Técnico</th>
+                                    <th>Fecha</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="badge-ticket">TKT-2024-00156</span></td>
+                                    <td><strong>Caída de Sistema - Sede Arequipa</strong></td>
+                                    <td>Sistema Automático</td>
+                                    <td>
+                                        <span style="display:inline-flex;align-items:center;">
+                                            <span class="priority-dot" style="background:#ef4444"></span>
+                                            <span class="badge bg-danger">Crítica</span>
+                                        </span>
+                                    </td>
+                                    <td><span class="badge bg-warning text-dark">En Proceso</span></td>
+                                    <td>Carlos Técnico</td>
+                                    <td>19/11/2024</td>
+                                    <td class="table-actions">
+                                        <button class="btn btn-sm btn-outline-primary" title="Ver">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-success" title="Cerrar">
+                                            <i class="bi bi-check"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td><span class="badge-ticket">TKT-2024-00155</span></td>
+                                    <td>Problema con impresora de tickets</td>
+                                    <td>María Cliente</td>
+                                    <td>
+                                        <span style="display:inline-flex;align-items:center;">
+                                            <span class="priority-dot" style="background:#f59e0b"></span>
+                                            <span class="badge bg-warning text-dark">Alta</span>
+                                        </span>
+                                    </td>
+                                    <td><span class="badge" style="background:var(--color-5); color:white;">En
+                                            Proceso</span></td>
+                                    <td>Ana Soporte</td>
+                                    <td>19/11/2024</td>
+                                    <td class="table-actions">
+                                        <button class="btn btn-sm btn-outline-primary" title="Ver">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-success" title="Cerrar">
+                                            <i class="bi bi-check"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td><span class="badge-ticket">TKT-2024-00154</span></td>
+                                    <td>Consulta sobre garantía de lentes</td>
+                                    <td>Juan Pérez</td>
+                                    <td>
+                                        <span style="display:inline-flex;align-items:center;">
+                                            <span class="priority-dot" style="background:#10b981"></span>
+                                            <span class="badge bg-success">Baja</span>
+                                        </span>
+                                    </td>
+                                    <td><span class="badge bg-success">Resuelto</span></td>
+                                    <td>Carlos Técnico</td>
+                                    <td>18/11/2024</td>
+                                    <td class="table-actions">
+                                        <button class="btn btn-sm btn-outline-primary" title="Ver">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-secondary" title="Archivar">
+                                            <i class="bi bi-archive"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td><span class="badge-ticket">TKT-2024-00153</span></td>
+                                    <td>Error en sistema de facturación</td>
+                                    <td>Pedro Gómez</td>
+                                    <td>
+                                        <span style="display:inline-flex;align-items:center;">
+                                            <span class="priority-dot" style="background:#f59e0b"></span>
+                                            <span class="badge bg-warning text-dark">Media</span>
+                                        </span>
+                                    </td>
+                                    <td><span class="badge" style="background:var(--color-5); color:white;">En
+                                            Proceso</span></td>
+                                    <td>Ana Soporte</td>
+                                    <td>18/11/2024</td>
+                                    <td class="table-actions">
+                                        <button class="btn btn-sm btn-outline-primary" title="Ver">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-success" title="Cerrar">
+                                            <i class="bi bi-check"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td><span class="badge-ticket">TKT-2024-00152</span></td>
+                                    <td>Mantenimiento preventivo sede Lima</td>
+                                    <td>Sistema Automático</td>
+                                    <td>
+                                        <span style="display:inline-flex;align-items:center;">
+                                            <span class="priority-dot" style="background:#10b981"></span>
+                                            <span class="badge bg-success">Baja</span>
+                                        </span>
+                                    </td>
+                                    <td><span class="badge"
+                                            style="background:var(--color-6); color:white;">Abierto</span></td>
+                                    <td>Sin asignar</td>
+                                    <td>18/11/2024</td>
+                                    <td class="table-actions">
+                                        <button class="btn btn-sm btn-outline-primary" title="Ver">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-secondary" title="Asignar">
+                                            <i class="bi bi-person-plus"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
             </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- TABLE -->
-      <div class="table-card">
-        <div class="card">
-          <div class="table-top">
-            <h5>
-              <i class="bi bi-ticket-perforated" style="color:var(--color-6)"></i> 
-              Tickets Recientes
-            </h5>
-            <div class="d-flex gap-2 flex-wrap">
-              <button class="btn-outline">
-                <i class="bi bi-filter"></i>
-                <span class="d-none d-sm-inline">Filtrar</span>
-              </button>
-              <button class="btn-outline">
-                <i class="bi bi-download"></i>
-                <span class="d-none d-sm-inline">Exportar</span>
-              </button>
-              <button class="btn-primary">
-                <i class="bi bi-plus-circle"></i>
-                <span class="d-none d-sm-inline">Nuevo</span>
-              </button>
-            </div>
-          </div>
-
-          <div class="table-responsive">
-            <table class="custom-table">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Título</th>
-                  <th>Cliente</th>
-                  <th>Prioridad</th>
-                  <th>Estado</th>
-                  <th>Técnico</th>
-                  <th>Fecha</th>
-                  <th>Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><span class="badge-ticket">TKT-2024-00156</span></td>
-                  <td><strong>Caída de Sistema - Sede Arequipa</strong></td>
-                  <td>Sistema Automático</td>
-                  <td>
-                    <span style="display:inline-flex;align-items:center;">
-                      <span class="priority-dot" style="background:#ef4444"></span>
-                      <span class="badge bg-danger">Crítica</span>
-                    </span>
-                  </td>
-                  <td><span class="badge bg-warning text-dark">En Proceso</span></td>
-                  <td>Carlos Técnico</td>
-                  <td>19/11/2024</td>
-                  <td class="table-actions">
-                    <button class="btn btn-sm btn-outline-primary" title="Ver">
-                      <i class="bi bi-eye"></i>
-                    </button>
-                    <button class="btn btn-sm btn-success" title="Cerrar">
-                      <i class="bi bi-check"></i>
-                    </button>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td><span class="badge-ticket">TKT-2024-00155</span></td>
-                  <td>Problema con impresora de tickets</td>
-                  <td>María Cliente</td>
-                  <td>
-                    <span style="display:inline-flex;align-items:center;">
-                      <span class="priority-dot" style="background:#f59e0b"></span>
-                      <span class="badge bg-warning text-dark">Alta</span>
-                    </span>
-                  </td>
-                  <td><span class="badge" style="background:var(--color-5); color:white;">En Proceso</span></td>
-                  <td>Ana Soporte</td>
-                  <td>19/11/2024</td>
-                  <td class="table-actions">
-                    <button class="btn btn-sm btn-outline-primary" title="Ver">
-                      <i class="bi bi-eye"></i>
-                    </button>
-                    <button class="btn btn-sm btn-success" title="Cerrar">
-                      <i class="bi bi-check"></i>
-                    </button>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td><span class="badge-ticket">TKT-2024-00154</span></td>
-                  <td>Consulta sobre garantía de lentes</td>
-                  <td>Juan Pérez</td>
-                  <td>
-                    <span style="display:inline-flex;align-items:center;">
-                      <span class="priority-dot" style="background:#10b981"></span>
-                      <span class="badge bg-success">Baja</span>
-                    </span>
-                  </td>
-                  <td><span class="badge bg-success">Resuelto</span></td>
-                  <td>Carlos Técnico</td>
-                  <td>18/11/2024</td>
-                  <td class="table-actions">
-                    <button class="btn btn-sm btn-outline-primary" title="Ver">
-                      <i class="bi bi-eye"></i>
-                    </button>
-                    <button class="btn btn-sm btn-secondary" title="Archivar">
-                      <i class="bi bi-archive"></i>
-                    </button>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td><span class="badge-ticket">TKT-2024-00153</span></td>
-                  <td>Error en sistema de facturación</td>
-                  <td>Pedro Gómez</td>
-                  <td>
-                    <span style="display:inline-flex;align-items:center;">
-                      <span class="priority-dot" style="background:#f59e0b"></span>
-                      <span class="badge bg-warning text-dark">Media</span>
-                    </span>
-                  </td>
-                  <td><span class="badge" style="background:var(--color-5); color:white;">En Proceso</span></td>
-                  <td>Ana Soporte</td>
-                  <td>18/11/2024</td>
-                  <td class="table-actions">
-                    <button class="btn btn-sm btn-outline-primary" title="Ver">
-                      <i class="bi bi-eye"></i>
-                    </button>
-                    <button class="btn btn-sm btn-success" title="Cerrar">
-                      <i class="bi bi-check"></i>
-                    </button>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td><span class="badge-ticket">TKT-2024-00152</span></td>
-                  <td>Mantenimiento preventivo sede Lima</td>
-                  <td>Sistema Automático</td>
-                  <td>
-                    <span style="display:inline-flex;align-items:center;">
-                      <span class="priority-dot" style="background:#10b981"></span>
-                      <span class="badge bg-success">Baja</span>
-                    </span>
-                  </td>
-                  <td><span class="badge" style="background:var(--color-6); color:white;">Abierto</span></td>
-                  <td>Sin asignar</td>
-                  <td>18/11/2024</td>
-                  <td class="table-actions">
-                    <button class="btn btn-sm btn-outline-primary" title="Ver">
-                      <i class="bi bi-eye"></i>
-                    </button>
-                    <button class="btn btn-sm btn-secondary" title="Asignar">
-                      <i class="bi bi-person-plus"></i>
-                    </button>
-                  </td>
-                </tr>
-
-              </tbody>
-            </table>
-          </div>
 
         </div>
-      </div>
-
     </div>
-  </div>
 
-  <!-- SCRIPTS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
-    // Sidebar toggle mobile
-    const btnToggle = document.getElementById('btnToggle');
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('overlay');
-    
-    btnToggle.addEventListener('click', () => {
-      sidebar.classList.toggle('active');
-      overlay.classList.toggle('active');
-    });
-    
-    overlay.addEventListener('click', () => {
-      sidebar.classList.remove('active');
-      overlay.classList.remove('active');
-    });
+    <!-- SCRIPTS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Sidebar toggle mobile
+        const btnToggle = document.getElementById('btnToggle');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
 
-    // Close sidebar when clicking menu item on mobile
-    document.querySelectorAll('.menu-item').forEach(it => {
-      it.addEventListener('click', () => {
-        if (window.innerWidth <= 768) {
-          sidebar.classList.remove('active');
-          overlay.classList.remove('active');
+        btnToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+        });
+
+        overlay.addEventListener('click', () => {
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+        });
+
+        // Close sidebar when clicking menu item on mobile
+        document.querySelectorAll('.menu-item').forEach(it => {
+            it.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    sidebar.classList.remove('active');
+                    overlay.classList.remove('active');
+                }
+            });
+        });
+
+        // Count-up animation for metrics (supports ints and floats)
+        function animateCount(el, target, duration = 1200) {
+            const isFloat = (String(target).indexOf('.') !== -1);
+            const decimals = isFloat ? (String(target).split('.')[1].length) : 0;
+            const start = 0;
+            const startTime = performance.now();
+
+            function tick(now) {
+                const progress = Math.min((now - startTime) / duration, 1);
+                const value = start + (target - start) * easeOutCubic(progress);
+                el.textContent = isFloat ? value.toFixed(decimals) : Math.round(value);
+                if (progress < 1) requestAnimationFrame(tick);
+            }
+            requestAnimationFrame(tick);
+
+            function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
         }
-      });
-    });
 
-    // Count-up animation for metrics (supports ints and floats)
-    function animateCount(el, target, duration=1200){
-      const isFloat = (String(target).indexOf('.') !== -1);
-      const decimals = isFloat ? (String(target).split('.')[1].length) : 0;
-      const start = 0;
-      const startTime = performance.now();
-      
-      function tick(now){
-        const progress = Math.min((now - startTime)/duration, 1);
-        const value = start + (target - start) * easeOutCubic(progress);
-        el.textContent = isFloat ? value.toFixed(decimals) : Math.round(value);
-        if(progress < 1) requestAnimationFrame(tick);
-      }
-      requestAnimationFrame(tick);
-      
-      function easeOutCubic(t){ return 1 - Math.pow(1 - t, 3); }
-    }
+        // Trigger count-up when visible
+        const metrics = document.querySelectorAll('.metric-value');
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const el = entry.target;
+                    const target = parseFloat(el.getAttribute('data-target')) || 0;
+                    animateCount(el, target, 1000 + Math.random() * 600);
+                    observer.unobserve(el);
+                }
+            });
+        }, { threshold: 0.4 });
 
-    // Trigger count-up when visible
-    const metrics = document.querySelectorAll('.metric-value');
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if(entry.isIntersecting){
-          const el = entry.target;
-          const target = parseFloat(el.getAttribute('data-target')) || 0;
-          animateCount(el, target, 1000 + Math.random()*600);
-          observer.unobserve(el);
-        }
-      });
-    }, { threshold: 0.4 });
+        metrics.forEach(m => observer.observe(m));
 
-    metrics.forEach(m => observer.observe(m));
-
-  </script>
+    </script>
 </body>
+
 </html>
