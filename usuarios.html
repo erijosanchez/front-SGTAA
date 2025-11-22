@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Usuarios - Sistema Trimax</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --color-1: #E6F5FF;
+            --color-2: #B8E4FF;
+            --color-3: #8AD2FF;
+            --color-4: #5CC0FF;
+            --color-5: #2EAFFF;
+            --color-6: #009DFF;
+            --color-7: #0081D1;
+            --color-8: #0065A3;
+            --color-9: #004875;
+            --color-10: #003A5D;
+            --color-11: #00101A;
+            --tinte-1: #E8EBEF;
+            --tinte-2: #D1D8E0;
+            --tinte-6: #7A8DA4;
+            --tinte-7: #657C95;
+            --sidebar-width: 280px;
+            --radius-lg: 14px;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Inter", "Segoe UI", sans-serif;
+            background: linear-gradient(180deg, var(--color-10), var(--color-11));
+            min-height: 100vh;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: var(--sidebar-width);
+            background: linear-gradient(180deg, var(--color-9), var(--color-11));
+            color: white;
+            overflow-y: auto;
+            z-index: 1100;
+            padding-bottom: 90px;
+            transition: transform .32s ease;
+            box-shadow: 8px 0 30px rgba(0, 0, 0, 0.25);
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: var(--color-7);
+            border-radius: 3px;
+        }
+
+        .sidebar .sidebar-header {
+            padding: 28px 22px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .sidebar .logo {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sidebar .logo i {
+            font-size: 36px;
+            color: var(--color-4);
+            background: rgba(255, 255, 255, 0.05);
+            padding: 8px;
+            border-radius: 10px;
+        }
+
+        .sidebar h4 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 700;
+            color: white;
+            letter-spacing: 1px;
+        }
+
+        .sidebar p {
+            margin: 0;
+            font-size: 12px;
+            color: var(--color-2);
+        }
+
+        .sidebar .menu {
+            padding: 16px 0;
+            margin-top: 10px;
+        }
+
+        .sidebar .menu-section {
+            padding: 12px 22px;
+            font-size: 11px;
+            text-transform: uppercase;
+            color: var(--color-2);
+            opacity: 0.7;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        .sidebar .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 22px;
+            margin: 6px 12px;
+            border-radius: 10px;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 600;
+            transition: all .18s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .sidebar .menu-item i {
+            font-size: 18px;
+            width: 22px;
+            text-align: center;
+            color: var(--color-3);
+        }
+
+        .sidebar .menu-item:hover {
+            transform: translateX(6px);
+            background: rgba(255, 255, 255, 0.03);
+            border-left-color: var(--color-4);
+        }
+
+        .sidebar .menu-item.active {
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.03), transparent);
+            border-left-color: var(--color-5);
+        }
+
+        .sidebar .user-info {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: var(--sidebar-width);
+            padding: 18px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .avatar {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--color-6), var(--color-8));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+        }
+
+        .user-details h6 {
+            margin: 0;
+            font-size: 14px;
+            color: white;
+        }
+
+        .user-details p {
+            margin: 0;
+            font-size: 12px;
+            color: var(--color-2);
+        }
+
+        .main {
+            margin-left: var(--sidebar-width);
+            min-height: 100vh;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+            padding-bottom: 60px;
+            transition: margin-left .32s ease;
+        }
+
+        .topbar {
+            padding: 20px 28px;
+            background: rgba(255, 255, 255, 0.03);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+            position: sticky;
+            top: 0;
+            z-index: 900;
+            backdrop-filter: blur(6px);
+        }
+
+        .topbar h1 {
+            margin: 0;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--color-1);
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .topbar .subtitle {
+            margin: 4px 0 0 0;
+            color: var(--tinte-6);
+            font-size: 13px;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: var(--color-1);
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-weight: 600;
+            display: inline-flex;
+            gap: 8px;
+            align-items: center;
+            transition: all 0.2s ease;
+        }
+
+        .btn-outline:hover {
+            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .btn-primary-corp {
+            background: linear-gradient(135deg, var(--color-6), var(--color-8));
+            color: white;
+            padding: 10px 16px;
+            border-radius: 10px;
+            border: none;
+            font-weight: 700;
+            display: inline-flex;
+            gap: 8px;
+            align-items: center;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary-corp:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+            color: white;
+        }
+
+        .mobile-toggle {
+            display: none;
+            background: var(--color-6);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 20px;
+        }
+
+        .content {
+            padding: 26px;
+        }
+
+        .muted {
+            color: var(--tinte-6);
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        /* STATS */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 22px;
+            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: transform 0.2s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .stat-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .stat-icon.primary {
+            background: var(--color-1);
+            color: var(--color-6);
+        }
+
+        .stat-icon.success {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        .stat-icon.warning {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+        }
+
+        .stat-icon.danger {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+        }
+
+        .stat-content h3 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--color-10);
+        }
+
+        .stat-content p {
+            margin: 4px 0 0 0;
+            font-size: 13px;
+            color: var(--tinte-7);
+            font-weight: 600;
+        }
+
+        /* TABLE */
+        .table-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .table-header h5 {
+            margin: 0;
+            font-weight: 700;
+            color: var(--color-10);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .table-header h5 i {
+            color: var(--color-6);
+        }
+
+        .filters-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .filters-row input,
+        .filters-row select {
+            padding: 10px 14px;
+            border: 2px solid var(--tinte-2);
+            border-radius: 10px;
+            font-size: 14px;
+        }
+
+        .filters-row input:focus,
+        .filters-row select:focus {
+            outline: none;
+            border-color: var(--color-6);
+        }
+
+        .custom-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .custom-table thead th {
+            background: linear-gradient(135deg, var(--color-9), var(--color-10));
+            color: white;
+            padding: 14px 16px;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 700;
+            text-align: left;
+        }
+
+        .custom-table tbody td {
+            padding: 16px;
+            border-bottom: 1px solid var(--tinte-1);
+            vertical-align: middle;
+        }
+
+        .custom-table tbody tr:hover {
+            background: var(--color-1);
+        }
+
+        .user-info-cell {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--color-6), var(--color-8));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .user-avatar.admin {
+            background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+        }
+
+        .user-avatar.tecnico {
+            background: linear-gradient(135deg, var(--success), #059669);
+        }
+
+        .user-avatar.soporte {
+            background: linear-gradient(135deg, var(--warning), #d97706);
+        }
+
+        .user-name {
+            font-weight: 700;
+            color: var(--color-10);
+        }
+
+        .user-email {
+            font-size: 12px;
+            color: var(--tinte-7);
+        }
+
+        .role-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 11px;
+            text-transform: uppercase;
+        }
+
+        .role-badge.admin {
+            background: rgba(139, 92, 246, 0.1);
+            color: #7c3aed;
+        }
+
+        .role-badge.tecnico {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        .role-badge.soporte {
+            background: rgba(245, 158, 11, 0.1);
+            color: #b45309;
+        }
+
+        .role-badge.usuario {
+            background: var(--color-1);
+            color: var(--color-7);
+        }
+
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 11px;
+        }
+
+        .status-badge.activo {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        .status-badge.inactivo {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+        }
+
+        .table-actions {
+            display: flex;
+            gap: 6px;
+        }
+
+        .btn-table {
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: none;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-table:hover {
+            transform: scale(1.1);
+        }
+
+        .btn-table-primary {
+            background: var(--color-6);
+            color: white;
+        }
+
+        .btn-table-outline {
+            background: white;
+            border: 2px solid var(--tinte-2);
+            color: var(--color-10);
+        }
+
+        .btn-table-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .pagination-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .pagination-info {
+            color: var(--tinte-7);
+            font-size: 14px;
+        }
+
+        .pagination {
+            margin: 0;
+        }
+
+        .pagination .page-link {
+            border: none;
+            color: var(--color-8);
+            font-weight: 600;
+            padding: 10px 16px;
+            border-radius: 8px;
+            margin: 0 3px;
+        }
+
+        .pagination .page-item.active .page-link {
+            background: linear-gradient(135deg, var(--color-6), var(--color-8));
+            color: white;
+        }
+
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.55);
+            z-index: 1050;
+            display: none;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        @media (max-width: 1200px) {
+            .stats-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-110%);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main {
+                margin-left: 0;
+            }
+
+            .mobile-toggle {
+                display: inline-block;
+            }
+
+            .stats-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .topbar h1 {
+                font-size: 17px;
+            }
+
+            .btn-outline span,
+            .btn-primary-corp span {
+                display: none;
+            }
+
+            .table-responsive {
+                overflow-x: auto;
+            }
+
+            .custom-table {
+                min-width: 800px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <i class="bi bi-shield-check"></i>
+                <div>
+                    <h4>TRIMAX</h4>
+                    <p>Sistema de Tickets</p>
+                </div>
+            </div>
+        </div>
+        <nav class="menu">
+            <div class="menu-section">Principal</div>
+            <a class="menu-item" href="dashboard.html"><i class="bi bi-speedometer2"></i><span>Dashboard</span></a>
+            <a class="menu-item" href="tickets.html"><i class="bi bi-ticket-perforated"></i><span>Tickets</span></a>
+            <div class="menu-section">Monitoreo</div>
+            <a class="menu-item" href="monitoreo.html"><i class="bi bi-display"></i><span>Monitoreo de Sedes</span></a>
+            <a class="menu-item" href="alarmas.html"><i class="bi bi-bell"></i><span>Alarmas</span></a>
+            <div class="menu-section">Administración</div>
+            <a class="menu-item" href="sedes.html"><i class="bi bi-building"></i><span>Sedes</span></a>
+            <a class="menu-item active" href="usuarios.html"><i class="bi bi-people"></i><span>Usuarios</span></a>
+            <a class="menu-item" href="#"><i class="bi bi-gear"></i><span>Configuración</span></a>
+            <div class="menu-section">Reportes</div>
+            <a class="menu-item" href="#"><i class="bi bi-graph-up"></i><span>Estadísticas</span></a>
+            <a class="menu-item" href="#"><i class="bi bi-file-earmark-text"></i><span>Reportes SLA</span></a>
+        </nav>
+        <div class="user-info">
+            <div class="avatar">A</div>
+            <div class="user-details">
+                <h6>Admin Sistema</h6>
+                <p>Administrador</p>
+            </div>
+            <a href="#" style="margin-left:auto; color:rgba(255,255,255,0.9)"><i class="bi bi-box-arrow-right"
+                    style="font-size:18px"></i></a>
+        </div>
+    </aside>
+
+    <div class="overlay" id="overlay"></div>
+
+    <!-- MAIN -->
+    <div class="main">
+        <div class="topbar">
+            <div class="container-fluid">
+                <div class="row align-items-center g-3">
+                    <div class="col-12 col-lg-6">
+                        <div class="d-flex align-items-center gap-3">
+                            <button class="mobile-toggle" id="btnToggle"><i class="bi bi-list"></i></button>
+                            <div>
+                                <h1><i class="bi bi-people"></i> <span>Gestión de Usuarios</span></h1>
+                                <p class="subtitle muted">Administra los usuarios del sistema</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6">
+                        <div class="d-flex align-items-center justify-content-lg-end gap-2 flex-wrap">
+                            <button class="btn-outline"><i class="bi bi-download"></i> <span>Exportar</span></button>
+                            <button class="btn-primary-corp"><i class="bi bi-person-plus"></i> <span>Nuevo
+                                    Usuario</span></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content">
+            <!-- STATS -->
+            <div class="stats-row">
+                <div class="stat-card">
+                    <div class="stat-icon primary"><i class="bi bi-people-fill"></i></div>
+                    <div class="stat-content">
+                        <h3>45</h3>
+                        <p>Total Usuarios</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon success"><i class="bi bi-person-check-fill"></i></div>
+                    <div class="stat-content">
+                        <h3>38</h3>
+                        <p>Activos</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon warning"><i class="bi bi-person-badge-fill"></i></div>
+                    <div class="stat-content">
+                        <h3>12</h3>
+                        <p>Técnicos</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon danger"><i class="bi bi-shield-lock-fill"></i></div>
+                    <div class="stat-content">
+                        <h3>3</h3>
+                        <p>Administradores</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TABLE -->
+            <div class="table-card">
+                <div class="table-header">
+                    <h5><i class="bi bi-people"></i> Lista de Usuarios</h5>
+                    <div class="filters-row">
+                        <input type="text" placeholder="🔍 Buscar usuario...">
+                        <select>
+                            <option value="">Todos los roles</option>
+                            <option>Administrador</option>
+                            <option>Técnico</option>
+                            <option>Soporte</option>
+                            <option>Usuario</option>
+                        </select>
+                        <select>
+                            <option value="">Todos los estados</option>
+                            <option>Activo</option>
+                            <option>Inactivo</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="custom-table">
+                        <thead>
+                            <tr>
+                                <th>Usuario</th>
+                                <th>Rol</th>
+                                <th>Sede</th>
+                                <th>Estado</th>
+                                <th>Tickets Asignados</th>
+                                <th>Último Acceso</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="user-info-cell">
+                                        <div class="user-avatar admin">A</div>
+                                        <div>
+                                            <div class="user-name">Admin Sistema</div>
+                                            <div class="user-email">admin@trimax.com</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="role-badge admin"><i class="bi bi-shield-fill"></i> Admin</span></td>
+                                <td>Todas</td>
+                                <td><span class="status-badge activo">Activo</span></td>
+                                <td><strong>-</strong></td>
+                                <td>Ahora</td>
+                                <td class="table-actions">
+                                    <button class="btn-table btn-table-primary" title="Ver"><i
+                                            class="bi bi-eye"></i></button>
+                                    <button class="btn-table btn-table-outline" title="Editar"><i
+                                            class="bi bi-pencil"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="user-info-cell">
+                                        <div class="user-avatar tecnico">C</div>
+                                        <div>
+                                            <div class="user-name">Carlos Técnico</div>
+                                            <div class="user-email">carlos@trimax.com</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="role-badge tecnico"><i class="bi bi-tools"></i> Técnico</span></td>
+                                <td>Lima, Arequipa</td>
+                                <td><span class="status-badge activo">Activo</span></td>
+                                <td><strong style="color: var(--color-6);">8</strong></td>
+                                <td>Hace 5 min</td>
+                                <td class="table-actions">
+                                    <button class="btn-table btn-table-primary" title="Ver"><i
+                                            class="bi bi-eye"></i></button>
+                                    <button class="btn-table btn-table-outline" title="Editar"><i
+                                            class="bi bi-pencil"></i></button>
+                                    <button class="btn-table btn-table-outline" title="Deshabilitar"><i
+                                            class="bi bi-slash-circle"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="user-info-cell">
+                                        <div class="user-avatar soporte">A</div>
+                                        <div>
+                                            <div class="user-name">Ana Soporte</div>
+                                            <div class="user-email">ana@trimax.com</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="role-badge soporte"><i class="bi bi-headset"></i> Soporte</span></td>
+                                <td>Lima</td>
+                                <td><span class="status-badge activo">Activo</span></td>
+                                <td><strong style="color: var(--color-6);">12</strong></td>
+                                <td>Hace 15 min</td>
+                                <td class="table-actions">
+                                    <button class="btn-table btn-table-primary" title="Ver"><i
+                                            class="bi bi-eye"></i></button>
+                                    <button class="btn-table btn-table-outline" title="Editar"><i
+                                            class="bi bi-pencil"></i></button>
+                                    <button class="btn-table btn-table-outline" title="Deshabilitar"><i
+                                            class="bi bi-slash-circle"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="user-info-cell">
+                                        <div class="user-avatar tecnico">M</div>
+                                        <div>
+                                            <div class="user-name">Miguel Fernández</div>
+                                            <div class="user-email">miguel@trimax.com</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="role-badge tecnico"><i class="bi bi-tools"></i> Técnico</span></td>
+                                <td>Cusco, Piura</td>
+                                <td><span class="status-badge activo">Activo</span></td>
+                                <td><strong style="color: var(--color-6);">5</strong></td>
+                                <td>Hace 1 hora</td>
+                                <td class="table-actions">
+                                    <button class="btn-table btn-table-primary" title="Ver"><i
+                                            class="bi bi-eye"></i></button>
+                                    <button class="btn-table btn-table-outline" title="Editar"><i
+                                            class="bi bi-pencil"></i></button>
+                                    <button class="btn-table btn-table-outline" title="Deshabilitar"><i
+                                            class="bi bi-slash-circle"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="user-info-cell">
+                                        <div class="user-avatar" style="background: var(--tinte-4);">P</div>
+                                        <div>
+                                            <div class="user-name">Pedro López</div>
+                                            <div class="user-email">pedro@trimax.com</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="role-badge usuario"><i class="bi bi-person"></i> Usuario</span></td>
+                                <td>Trujillo</td>
+                                <td><span class="status-badge inactivo">Inactivo</span></td>
+                                <td><strong>0</strong></td>
+                                <td style="color: var(--tinte-6);">Hace 30 días</td>
+                                <td class="table-actions">
+                                    <button class="btn-table btn-table-primary" title="Ver"><i
+                                            class="bi bi-eye"></i></button>
+                                    <button class="btn-table btn-table-outline" title="Editar"><i
+                                            class="bi bi-pencil"></i></button>
+                                    <button class="btn-table btn-table-danger" title="Eliminar"><i
+                                            class="bi bi-trash"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="pagination-wrapper">
+                    <span class="pagination-info">Mostrando 5 de 45 usuarios</span>
+                    <nav>
+                        <ul class="pagination">
+                            <li class="page-item disabled"><a class="page-link" href="#"><i
+                                        class="bi bi-chevron-left"></i></a></li>
+                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item"><a class="page-link" href="#">...</a></li>
+                            <li class="page-item"><a class="page-link" href="#">9</a></li>
+                            <li class="page-item"><a class="page-link" href="#"><i class="bi bi-chevron-right"></i></a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const btnToggle = document.getElementById('btnToggle');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        btnToggle.addEventListener('click', () => { sidebar.classList.toggle('active'); overlay.classList.toggle('active'); });
+        overlay.addEventListener('click', () => { sidebar.classList.remove('active'); overlay.classList.remove('active'); });
+    </script>
+</body>
+
+</html>
