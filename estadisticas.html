@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estadísticas - Sistema Trimax</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --color-1: #E6F5FF;
+            --color-2: #B8E4FF;
+            --color-3: #8AD2FF;
+            --color-4: #5CC0FF;
+            --color-5: #2EAFFF;
+            --color-6: #009DFF;
+            --color-7: #0081D1;
+            --color-8: #0065A3;
+            --color-9: #004875;
+            --color-10: #003A5D;
+            --color-11: #00101A;
+            --tinte-1: #E8EBEF;
+            --tinte-2: #D1D8E0;
+            --tinte-6: #7A8DA4;
+            --tinte-7: #657C95;
+            --sidebar-width: 280px;
+            --radius-lg: 14px;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Inter", "Segoe UI", sans-serif;
+            background: linear-gradient(180deg, var(--color-10), var(--color-11));
+            min-height: 100vh;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: var(--sidebar-width);
+            background: linear-gradient(180deg, var(--color-9), var(--color-11));
+            color: white;
+            overflow-y: auto;
+            z-index: 1100;
+            padding-bottom: 90px;
+            transition: transform .32s ease;
+            box-shadow: 8px 0 30px rgba(0, 0, 0, 0.25);
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: var(--color-7);
+            border-radius: 3px;
+        }
+
+        .sidebar .sidebar-header {
+            padding: 28px 22px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .sidebar .logo {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sidebar .logo i {
+            font-size: 36px;
+            color: var(--color-4);
+            background: rgba(255, 255, 255, 0.05);
+            padding: 8px;
+            border-radius: 10px;
+        }
+
+        .sidebar h4 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 700;
+            color: white;
+            letter-spacing: 1px;
+        }
+
+        .sidebar p {
+            margin: 0;
+            font-size: 12px;
+            color: var(--color-2);
+        }
+
+        .sidebar .menu {
+            padding: 16px 0;
+            margin-top: 10px;
+        }
+
+        .sidebar .menu-section {
+            padding: 12px 22px;
+            font-size: 11px;
+            text-transform: uppercase;
+            color: var(--color-2);
+            opacity: 0.7;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        .sidebar .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 22px;
+            margin: 6px 12px;
+            border-radius: 10px;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 600;
+            transition: all .18s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .sidebar .menu-item i {
+            font-size: 18px;
+            width: 22px;
+            text-align: center;
+            color: var(--color-3);
+        }
+
+        .sidebar .menu-item:hover {
+            transform: translateX(6px);
+            background: rgba(255, 255, 255, 0.03);
+            border-left-color: var(--color-4);
+        }
+
+        .sidebar .menu-item.active {
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.03), transparent);
+            border-left-color: var(--color-5);
+        }
+
+        .sidebar .user-info {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: var(--sidebar-width);
+            padding: 18px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .avatar {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--color-6), var(--color-8));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+        }
+
+        .user-details h6 {
+            margin: 0;
+            font-size: 14px;
+            color: white;
+        }
+
+        .user-details p {
+            margin: 0;
+            font-size: 12px;
+            color: var(--color-2);
+        }
+
+        .main {
+            margin-left: var(--sidebar-width);
+            min-height: 100vh;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+            padding-bottom: 60px;
+            transition: margin-left .32s ease;
+        }
+
+        .topbar {
+            padding: 20px 28px;
+            background: rgba(255, 255, 255, 0.03);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+            position: sticky;
+            top: 0;
+            z-index: 900;
+            backdrop-filter: blur(6px);
+        }
+
+        .topbar h1 {
+            margin: 0;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--color-1);
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .topbar .subtitle {
+            margin: 4px 0 0 0;
+            color: var(--tinte-6);
+            font-size: 13px;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: var(--color-1);
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-weight: 600;
+            display: inline-flex;
+            gap: 8px;
+            align-items: center;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .btn-outline:hover {
+            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .btn-primary-corp {
+            background: linear-gradient(135deg, var(--color-6), var(--color-8));
+            color: white;
+            padding: 10px 16px;
+            border-radius: 10px;
+            border: none;
+            font-weight: 700;
+            display: inline-flex;
+            gap: 8px;
+            align-items: center;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .btn-primary-corp:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+            color: white;
+        }
+
+        .mobile-toggle {
+            display: none;
+            background: var(--color-6);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 20px;
+        }
+
+        .content {
+            padding: 26px;
+        }
+
+        .muted {
+            color: var(--tinte-6);
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        /* STATS CARDS */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 22px;
+            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
+            transition: transform 0.2s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+
+        .stat-icon.blue {
+            background: var(--color-1);
+            color: var(--color-6);
+        }
+
+        .stat-icon.green {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        .stat-icon.yellow {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+        }
+
+        .stat-icon.red {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+        }
+
+        .stat-icon.purple {
+            background: rgba(139, 92, 246, 0.1);
+            color: #7c3aed;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--color-10);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--tinte-7);
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-top: 5px;
+        }
+
+        .stat-change {
+            font-size: 12px;
+            font-weight: 700;
+            margin-top: 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 8px;
+            border-radius: 12px;
+        }
+
+        .stat-change.up {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        .stat-change.down {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+        }
+
+        /* CHART CARDS */
+        .chart-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
+            height: 100%;
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .chart-header h5 {
+            margin: 0;
+            font-weight: 700;
+            color: var(--color-10);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 16px;
+        }
+
+        .chart-header h5 i {
+            color: var(--color-6);
+        }
+
+        .chart-container {
+            position: relative;
+            height: 280px;
+        }
+
+        .chart-tabs {
+            display: flex;
+            gap: 8px;
+        }
+
+        .chart-tab {
+            padding: 6px 14px;
+            border-radius: 20px;
+            border: 2px solid var(--tinte-2);
+            background: white;
+            color: var(--color-10);
+            font-weight: 600;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .chart-tab:hover,
+        .chart-tab.active {
+            background: var(--color-6);
+            color: white;
+            border-color: var(--color-6);
+        }
+
+        /* RANKING TABLE */
+        .ranking-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
+        }
+
+        .ranking-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .ranking-header h5 {
+            margin: 0;
+            font-weight: 700;
+            color: var(--color-10);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .ranking-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .ranking-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 14px 0;
+            border-bottom: 1px solid var(--tinte-1);
+        }
+
+        .ranking-item:last-child {
+            border-bottom: none;
+        }
+
+        .ranking-position {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 14px;
+        }
+
+        .ranking-position.gold {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: white;
+        }
+
+        .ranking-position.silver {
+            background: linear-gradient(135deg, #9ca3af, #6b7280);
+            color: white;
+        }
+
+        .ranking-position.bronze {
+            background: linear-gradient(135deg, #d97706, #b45309);
+            color: white;
+        }
+
+        .ranking-position.normal {
+            background: var(--tinte-1);
+            color: var(--color-10);
+        }
+
+        .ranking-info {
+            flex: 1;
+        }
+
+        .ranking-name {
+            font-weight: 700;
+            color: var(--color-10);
+        }
+
+        .ranking-role {
+            font-size: 12px;
+            color: var(--tinte-7);
+        }
+
+        .ranking-value {
+            font-weight: 800;
+            color: var(--color-6);
+            font-size: 18px;
+        }
+
+        .ranking-badge {
+            font-size: 11px;
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-weight: 700;
+        }
+
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.55);
+            z-index: 1050;
+            display: none;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        @media (max-width: 1400px) {
+            .stats-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 992px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-110%);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main {
+                margin-left: 0;
+            }
+
+            .mobile-toggle {
+                display: inline-block;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .topbar h1 {
+                font-size: 17px;
+            }
+
+            .btn-outline span,
+            .btn-primary-corp span {
+                display: none;
+            }
+
+            .stat-value {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo"><i class="bi bi-shield-check"></i>
+                <div>
+                    <h4>TRIMAX</h4>
+                    <p>Sistema de Tickets</p>
+                </div>
+            </div>
+        </div>
+        <nav class="menu">
+            <div class="menu-section">Principal</div>
+            <a class="menu-item" href="dashboard.html"><i class="bi bi-speedometer2"></i><span>Dashboard</span></a>
+            <a class="menu-item" href="tickets.html"><i class="bi bi-ticket-perforated"></i><span>Tickets</span></a>
+            <div class="menu-section">Monitoreo</div>
+            <a class="menu-item" href="monitoreo.html"><i class="bi bi-display"></i><span>Monitoreo de Sedes</span></a>
+            <a class="menu-item" href="alarmas.html"><i class="bi bi-bell"></i><span>Alarmas</span></a>
+            <div class="menu-section">Administración</div>
+            <a class="menu-item" href="sedes.html"><i class="bi bi-building"></i><span>Sedes</span></a>
+            <a class="menu-item" href="usuarios.html"><i class="bi bi-people"></i><span>Usuarios</span></a>
+            <a class="menu-item" href="#"><i class="bi bi-gear"></i><span>Configuración</span></a>
+            <div class="menu-section">Reportes</div>
+            <a class="menu-item active" href="estadisticas.html"><i
+                    class="bi bi-graph-up"></i><span>Estadísticas</span></a>
+            <a class="menu-item" href="reportes-sla.html"><i class="bi bi-file-earmark-text"></i><span>Reportes
+                    SLA</span></a>
+        </nav>
+        <div class="user-info">
+            <div class="avatar">A</div>
+            <div class="user-details">
+                <h6>Admin Sistema</h6>
+                <p>Administrador</p>
+            </div>
+            <a href="#" style="margin-left:auto; color:rgba(255,255,255,0.9)"><i class="bi bi-box-arrow-right"
+                    style="font-size:18px"></i></a>
+        </div>
+    </aside>
+
+    <div class="overlay" id="overlay"></div>
+
+    <div class="main">
+        <div class="topbar">
+            <div class="container-fluid">
+                <div class="row align-items-center g-3">
+                    <div class="col-12 col-lg-6">
+                        <div class="d-flex align-items-center gap-3">
+                            <button class="mobile-toggle" id="btnToggle"><i class="bi bi-list"></i></button>
+                            <div>
+                                <h1><i class="bi bi-graph-up-arrow"></i> <span>Estadísticas</span></h1>
+                                <p class="subtitle muted">Análisis completo del rendimiento del sistema</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6">
+                        <div class="d-flex align-items-center justify-content-lg-end gap-2 flex-wrap">
+                            <select class="btn-outline" style="background: transparent; cursor: pointer;">
+                                <option>Últimos 7 días</option>
+                                <option>Últimos 30 días</option>
+                                <option>Este mes</option>
+                                <option>Este año</option>
+                            </select>
+                            <button class="btn-primary-corp"><i class="bi bi-download"></i>
+                                <span>Exportar</span></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content">
+            <!-- STATS GRID -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon blue"><i class="bi bi-ticket-perforated-fill"></i></div>
+                    </div>
+                    <div class="stat-value">1,248</div>
+                    <div class="stat-label">Total Tickets</div>
+                    <div class="stat-change up"><i class="bi bi-arrow-up"></i> +15.3%</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon green"><i class="bi bi-check-circle-fill"></i></div>
+                    </div>
+                    <div class="stat-value">1,156</div>
+                    <div class="stat-label">Resueltos</div>
+                    <div class="stat-change up"><i class="bi bi-arrow-up"></i> +12.8%</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon yellow"><i class="bi bi-clock-fill"></i></div>
+                    </div>
+                    <div class="stat-value">2.3h</div>
+                    <div class="stat-label">Tiempo Promedio</div>
+                    <div class="stat-change up"><i class="bi bi-arrow-down"></i> -18min</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon red"><i class="bi bi-bell-fill"></i></div>
+                    </div>
+                    <div class="stat-value">89</div>
+                    <div class="stat-label">Alarmas</div>
+                    <div class="stat-change down"><i class="bi bi-arrow-up"></i> +5</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon purple"><i class="bi bi-star-fill"></i></div>
+                    </div>
+                    <div class="stat-value">4.8</div>
+                    <div class="stat-label">Satisfacción</div>
+                    <div class="stat-change up"><i class="bi bi-arrow-up"></i> +0.2</div>
+                </div>
+            </div>
+
+            <!-- CHARTS ROW 1 -->
+            <div class="row g-4 mb-4">
+                <div class="col-lg-8">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h5><i class="bi bi-bar-chart-fill"></i> Tickets por Período</h5>
+                            <div class="chart-tabs">
+                                <button class="chart-tab active">Semana</button>
+                                <button class="chart-tab">Mes</button>
+                                <button class="chart-tab">Año</button>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="ticketsChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h5><i class="bi bi-pie-chart-fill"></i> Por Estado</h5>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="statusChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CHARTS ROW 2 -->
+            <div class="row g-4 mb-4">
+                <div class="col-lg-4">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h5><i class="bi bi-building"></i> Por Sede</h5>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="sedeChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h5><i class="bi bi-clock-history"></i> Tiempos de Resolución</h5>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="timeChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RANKING -->
+            <div class="row g-4">
+                <div class="col-lg-6">
+                    <div class="ranking-card">
+                        <div class="ranking-header">
+                            <h5><i class="bi bi-trophy-fill" style="color: #f59e0b;"></i> Top Técnicos del Mes</h5>
+                        </div>
+                        <ul class="ranking-list">
+                            <li class="ranking-item">
+                                <div class="ranking-position gold">1</div>
+                                <div class="ranking-info">
+                                    <div class="ranking-name">Carlos Técnico</div>
+                                    <div class="ranking-role">Técnico Senior</div>
+                                </div>
+                                <div class="ranking-value">156</div>
+                                <div class="ranking-badge">⭐ 4.9</div>
+                            </li>
+                            <li class="ranking-item">
+                                <div class="ranking-position silver">2</div>
+                                <div class="ranking-info">
+                                    <div class="ranking-name">Ana Soporte</div>
+                                    <div class="ranking-role">Soporte Nivel 2</div>
+                                </div>
+                                <div class="ranking-value">142</div>
+                                <div class="ranking-badge">⭐ 4.8</div>
+                            </li>
+                            <li class="ranking-item">
+                                <div class="ranking-position bronze">3</div>
+                                <div class="ranking-info">
+                                    <div class="ranking-name">Miguel Fernández</div>
+                                    <div class="ranking-role">Técnico</div>
+                                </div>
+                                <div class="ranking-value">128</div>
+                                <div class="ranking-badge">⭐ 4.7</div>
+                            </li>
+                            <li class="ranking-item">
+                                <div class="ranking-position normal">4</div>
+                                <div class="ranking-info">
+                                    <div class="ranking-name">Laura García</div>
+                                    <div class="ranking-role">Soporte Nivel 1</div>
+                                </div>
+                                <div class="ranking-value">98</div>
+                                <div class="ranking-badge">⭐ 4.6</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="ranking-card">
+                        <div class="ranking-header">
+                            <h5><i class="bi bi-building" style="color: var(--color-6);"></i> Tickets por Sede</h5>
+                        </div>
+                        <ul class="ranking-list">
+                            <li class="ranking-item">
+                                <div class="ranking-position gold">1</div>
+                                <div class="ranking-info">
+                                    <div class="ranking-name">Sede Lima</div>
+                                    <div class="ranking-role">LIM01 - Principal</div>
+                                </div>
+                                <div class="ranking-value">425</div>
+                                <div class="ranking-badge" style="background: var(--color-1); color: var(--color-7);">
+                                    34%</div>
+                            </li>
+                            <li class="ranking-item">
+                                <div class="ranking-position silver">2</div>
+                                <div class="ranking-info">
+                                    <div class="ranking-name">Sede Arequipa</div>
+                                    <div class="ranking-role">AQP01</div>
+                                </div>
+                                <div class="ranking-value">312</div>
+                                <div class="ranking-badge" style="background: var(--color-1); color: var(--color-7);">
+                                    25%</div>
+                            </li>
+                            <li class="ranking-item">
+                                <div class="ranking-position bronze">3</div>
+                                <div class="ranking-info">
+                                    <div class="ranking-name">Sede Trujillo</div>
+                                    <div class="ranking-role">TRU01</div>
+                                </div>
+                                <div class="ranking-value">245</div>
+                                <div class="ranking-badge" style="background: var(--color-1); color: var(--color-7);">
+                                    20%</div>
+                            </li>
+                            <li class="ranking-item">
+                                <div class="ranking-position normal">4</div>
+                                <div class="ranking-info">
+                                    <div class="ranking-name">Otras Sedes</div>
+                                    <div class="ranking-role">CUS01, PIU01, etc.</div>
+                                </div>
+                                <div class="ranking-value">266</div>
+                                <div class="ranking-badge" style="background: var(--color-1); color: var(--color-7);">
+                                    21%</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Sidebar toggle
+        const btnToggle = document.getElementById('btnToggle');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        btnToggle.addEventListener('click', () => { sidebar.classList.toggle('active'); overlay.classList.toggle('active'); });
+        overlay.addEventListener('click', () => { sidebar.classList.remove('active'); overlay.classList.remove('active'); });
+
+        // Chart tabs
+        document.querySelectorAll('.chart-tab').forEach(tab => {
+            tab.addEventListener('click', function () {
+                this.parentElement.querySelectorAll('.chart-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Tickets Chart
+        new Chart(document.getElementById('ticketsChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'],
+                datasets: [
+                    { label: 'Abiertos', data: [45, 52, 38, 65, 48, 22, 15], backgroundColor: '#f59e0b', borderRadius: 6 },
+                    { label: 'Resueltos', data: [42, 48, 40, 58, 52, 20, 12], backgroundColor: '#10b981', borderRadius: 6 }
+                ]
+            },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } }, scales: { x: { grid: { display: false } } } }
+        });
+
+        // Status Chart
+        new Chart(document.getElementById('statusChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Resueltos', 'En Proceso', 'Abiertos', 'Pendientes'],
+                datasets: [{ data: [65, 20, 10, 5], backgroundColor: ['#10b981', '#009DFF', '#f59e0b', '#ef4444'], borderWidth: 0 }]
+            },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
+        });
+
+        // Sede Chart
+        new Chart(document.getElementById('sedeChart'), {
+            type: 'polarArea',
+            data: {
+                labels: ['Lima', 'Arequipa', 'Trujillo', 'Cusco', 'Piura'],
+                datasets: [{ data: [425, 312, 245, 156, 110], backgroundColor: ['#009DFF', '#0081D1', '#0065A3', '#004875', '#003A5D'] }]
+            },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right' } } }
+        });
+
+        // Time Chart
+        new Chart(document.getElementById('timeChart'), {
+            type: 'line',
+            data: {
+                labels: ['Sem 1', 'Sem 2', 'Sem 3', 'Sem 4'],
+                datasets: [
+                    { label: 'Tiempo Respuesta (min)', data: [55, 48, 42, 45], borderColor: '#009DFF', backgroundColor: 'rgba(0,157,255,0.1)', fill: true, tension: 0.4 },
+                    { label: 'Tiempo Resolución (h)', data: [3.2, 2.8, 2.5, 2.3], borderColor: '#10b981', backgroundColor: 'rgba(16,185,129,0.1)', fill: true, tension: 0.4 }
+                ]
+            },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } } }
+        });
+    </script>
+</body>
+
+</html>
