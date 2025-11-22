@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,413 +8,946 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <style>
+        /* ==========================================================
+           PALETA DE COLORES
+        ========================================================== */
         :root {
-            --primary-color: #667eea;
-            --secondary-color: #764ba2;
-            --sidebar-width: 260px;
+            --color-1: #E6F5FF;
+            --color-2: #B8E4FF;
+            --color-3: #8AD2FF;
+            --color-4: #5CC0FF;
+            --color-5: #2EAFFF;
+            --color-6: #009DFF;
+            --color-7: #0081D1;
+            --color-8: #0065A3;
+            --color-9: #004875;
+            --color-10: #003A5D;
+            --color-11: #00101A;
+
+            --tinte-1: #E8EBEF;
+            --tinte-2: #D1D8E0;
+            --tinte-3: #BBC5D0;
+            --tinte-4: #A5B2C1;
+            --tinte-5: #8F9FB2;
+            --tinte-6: #7A8DA4;
+            --tinte-7: #657C95;
+            --tinte-8: #506A87;
+            --tinte-9: #3A5A79;
+            --tinte-10: #234A6B;
+            --tinte-11: #003A5D;
+
+            --sidebar-width: 280px;
+            --radius-lg: 14px;
+
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
         }
-        
+
+        * {
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+        }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f5f7fa;
+            margin: 0;
+            font-family: "Inter", "Segoe UI", Tahoma, sans-serif;
+            background: linear-gradient(180deg, var(--color-10) 0%, var(--color-11) 100%);
+            color: var(--color-11);
+            min-height: 100vh;
         }
-        
-        /* SIDEBAR */
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* ==========================================================
+           SIDEBAR
+        ========================================================== */
         .sidebar {
             position: fixed;
             top: 0;
             left: 0;
             height: 100vh;
             width: var(--sidebar-width);
-            background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(180deg, var(--color-9), var(--color-11));
             color: white;
             overflow-y: auto;
-            z-index: 1000;
+            overflow-x: hidden;
+            z-index: 1100;
+            padding-bottom: 90px;
+            transition: transform .32s cubic-bezier(.2, .9, .2, 1);
+            box-shadow: 8px 0 30px rgba(0, 0, 0, 0.25);
         }
-        
-        .sidebar-header {
-            padding: 25px 20px;
-            text-align: center;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+
+        .sidebar::-webkit-scrollbar {
+            width: 5px;
         }
-        
-        .menu-item {
-            padding: 12px 25px;
-            color: white;
-            text-decoration: none;
+
+        .sidebar::-webkit-scrollbar-track {
+            background: var(--color-10);
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: var(--color-7);
+            border-radius: 3px;
+        }
+
+        .sidebar .sidebar-header {
+            padding: 28px 22px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .sidebar .logo {
             display: flex;
+            gap: 12px;
             align-items: center;
-            transition: all 0.3s;
-            border-left: 4px solid transparent;
+            justify-content: center;
         }
-        
-        .menu-item:hover {
-            background: rgba(255,255,255,0.1);
-            border-left-color: white;
+
+        .sidebar .logo i {
+            font-size: 36px;
+            color: var(--color-4);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(0, 0, 0, 0.06));
+            padding: 8px;
+            border-radius: 10px;
+        }
+
+        .sidebar h4 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 700;
             color: white;
+            letter-spacing: 1px;
         }
-        
-        .menu-item.active {
-            background: rgba(255,255,255,0.15);
-            border-left-color: white;
-            font-weight: 600;
+
+        .sidebar p {
+            margin: 0;
+            font-size: 12px;
+            color: var(--color-2);
+            opacity: 0.9;
         }
-        
-        .menu-item i {
-            font-size: 20px;
-            margin-right: 12px;
-            width: 25px;
+
+        .sidebar .menu {
+            padding: 16px 0;
+            margin-top: 10px;
         }
-        
-        .menu-section {
-            padding: 10px 25px;
+
+        .sidebar .menu-section {
+            padding: 12px 22px;
             font-size: 11px;
             text-transform: uppercase;
-            opacity: 0.6;
-            font-weight: 600;
+            color: var(--color-2);
+            opacity: 0.7;
+            letter-spacing: 1px;
+            font-weight: 700;
         }
-        
-        /* MAIN CONTENT */
-        .main-content {
+
+        .sidebar .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 22px;
+            margin: 6px 12px;
+            border-radius: 10px;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 600;
+            transition: all .18s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .sidebar .menu-item i {
+            font-size: 18px;
+            width: 22px;
+            text-align: center;
+            color: var(--color-3);
+        }
+
+        .sidebar .menu-item:hover {
+            transform: translateX(6px);
+            background: rgba(255, 255, 255, 0.03);
+            border-left-color: var(--color-4);
+        }
+
+        .sidebar .menu-item.active {
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.03), transparent);
+            border-left-color: var(--color-5);
+            color: white;
+        }
+
+        .sidebar .user-info {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: var(--sidebar-width);
+            padding: 18px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.3));
+            backdrop-filter: blur(10px);
+        }
+
+        .avatar {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--color-6), var(--color-8));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+        }
+
+        .user-details h6 {
+            margin: 0;
+            font-size: 14px;
+            color: white;
+        }
+
+        .user-details p {
+            margin: 0;
+            font-size: 12px;
+            color: var(--color-2);
+        }
+
+        /* ==========================================================
+           MAIN CONTENT
+        ========================================================== */
+        .main {
             margin-left: var(--sidebar-width);
             min-height: 100vh;
+            transition: margin-left .32s cubic-bezier(.2, .9, .2, 1);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+            padding-bottom: 60px;
         }
-        
-        .top-navbar {
-            background: white;
-            padding: 20px 30px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+
+        /* TOPBAR */
+        .topbar {
+            padding: 20px 28px;
+            background: rgba(255, 255, 255, 0.03);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+            position: sticky;
+            top: 0;
+            z-index: 900;
+            backdrop-filter: blur(6px);
         }
-        
-        .content-area {
-            padding: 30px;
+
+        .topbar h1 {
+            margin: 0;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--color-1);
+            display: flex;
+            gap: 10px;
+            align-items: center;
         }
-        
-        /* STATUS CARD */
+
+        .topbar .subtitle {
+            margin: 4px 0 0 0;
+            color: var(--tinte-6);
+            font-size: 13px;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: var(--color-1);
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-weight: 600;
+            display: inline-flex;
+            gap: 8px;
+            align-items: center;
+            transition: all 0.2s ease;
+        }
+
+        .btn-outline:hover {
+            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        }
+
+        .btn-primary-corp {
+            background: linear-gradient(135deg, var(--color-6), var(--color-8));
+            color: white;
+            padding: 10px 16px;
+            border-radius: 10px;
+            border: none;
+            font-weight: 700;
+            display: inline-flex;
+            gap: 8px;
+            align-items: center;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary-corp:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+            color: white;
+        }
+
+        .mobile-toggle {
+            display: none;
+            background: var(--color-6);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 20px;
+        }
+
+        /* CONTENT */
+        .content {
+            padding: 26px;
+        }
+
+        /* ==========================================================
+           STATUS OVERVIEW
+        ========================================================== */
         .status-overview {
             background: white;
-            border-radius: 15px;
+            border-radius: var(--radius-lg);
             padding: 25px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            margin-bottom: 30px;
+            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
+            margin-bottom: 25px;
         }
-        
+
+        .status-overview h5 {
+            margin: 0 0 25px 0;
+            font-weight: 700;
+            color: var(--color-10);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .status-overview h5 i {
+            color: var(--color-6);
+        }
+
         .status-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 20px;
         }
-        
+
         .status-item {
             text-align: center;
-            padding: 20px;
+            padding: 25px 20px;
             border-radius: 12px;
             border: 2px solid;
+            transition: transform 0.2s ease;
         }
-        
+
+        .status-item:hover {
+            transform: translateY(-4px);
+        }
+
         .status-item.online {
-            background: rgba(40, 167, 69, 0.05);
-            border-color: #28a745;
+            background: rgba(16, 185, 129, 0.05);
+            border-color: var(--success);
         }
-        
+
         .status-item.offline {
-            background: rgba(220, 53, 69, 0.05);
-            border-color: #dc3545;
+            background: rgba(239, 68, 68, 0.05);
+            border-color: var(--danger);
         }
-        
+
         .status-item.degraded {
-            background: rgba(255, 193, 7, 0.05);
-            border-color: #ffc107;
+            background: rgba(245, 158, 11, 0.05);
+            border-color: var(--warning);
         }
-        
+
+        .status-item.uptime {
+            background: var(--color-1);
+            border-color: var(--color-6);
+        }
+
         .status-icon {
-            font-size: 48px;
+            font-size: 42px;
             margin-bottom: 10px;
         }
-        
+
         .status-value {
-            font-size: 36px;
-            font-weight: 700;
+            font-size: 32px;
+            font-weight: 800;
             margin: 10px 0;
         }
-        
+
         .status-label {
-            font-size: 14px;
+            font-size: 12px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            font-weight: 600;
+            font-weight: 700;
         }
-        
-        /* SEDE CARD */
+
+        /* ==========================================================
+           SEDE CARD
+        ========================================================== */
+        .sedes-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .sedes-header h5 {
+            margin: 0;
+            font-weight: 700;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sedes-header .badge {
+            background: var(--color-6);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+
         .sede-card {
             background: white;
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
             margin-bottom: 20px;
             border-left: 5px solid;
-            transition: transform 0.3s;
+            transition: all 0.25s ease;
         }
-        
+
         .sede-card:hover {
-            transform: translateX(5px);
+            transform: translateX(6px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
         }
-        
-        .sede-card.online { border-left-color: #28a745; }
-        .sede-card.offline { border-left-color: #dc3545; }
-        .sede-card.degraded { border-left-color: #ffc107; }
-        
+
+        .sede-card.online {
+            border-left-color: var(--success);
+        }
+
+        .sede-card.offline {
+            border-left-color: var(--danger);
+        }
+
+        .sede-card.degraded {
+            border-left-color: var(--warning);
+        }
+
         .sede-header {
             display: flex;
             justify-content: space-between;
-            align-items: start;
-            margin-bottom: 15px;
+            align-items: flex-start;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 12px;
         }
-        
-        .sede-title {
-            font-size: 20px;
-            font-weight: 700;
-            color: #2d3748;
-            margin-bottom: 5px;
-        }
-        
+
         .sede-code {
             font-family: 'Courier New', monospace;
-            color: #667eea;
-            font-weight: 600;
+            color: var(--color-7);
+            font-weight: 700;
+            font-size: 13px;
+            background: var(--color-1);
+            padding: 4px 10px;
+            border-radius: 6px;
+            display: inline-block;
+            margin-bottom: 6px;
         }
-        
-        .status-indicator {
+
+        .sede-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--color-10);
+            margin: 0;
+        }
+
+        .sede-location {
+            color: var(--tinte-7);
+            font-size: 14px;
+            margin-top: 4px;
             display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .status-indicator {
+            display: inline-flex;
             align-items: center;
             gap: 8px;
             padding: 8px 16px;
             border-radius: 20px;
-            font-weight: 600;
-            font-size: 14px;
+            font-weight: 700;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
-        
+
         .status-indicator.online {
-            background: rgba(40, 167, 69, 0.1);
-            color: #28a745;
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
         }
-        
+
         .status-indicator.offline {
-            background: rgba(220, 53, 69, 0.1);
-            color: #dc3545;
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
         }
-        
+
         .status-indicator.degraded {
-            background: rgba(255, 193, 7, 0.1);
-            color: #ffc107;
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
         }
-        
+
         .pulse {
             width: 10px;
             height: 10px;
             border-radius: 50%;
             animation: pulse 2s infinite;
         }
-        
-        .pulse.online { background: #28a745; }
-        .pulse.offline { background: #dc3545; }
-        .pulse.degraded { background: #ffc107; }
-        
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
+
+        .pulse.online {
+            background: var(--success);
         }
-        
+
+        .pulse.offline {
+            background: var(--danger);
+        }
+
+        .pulse.degraded {
+            background: var(--warning);
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.5;
+                transform: scale(0.9);
+            }
+        }
+
         .sede-info {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
+            gap: 12px;
             margin: 20px 0;
         }
-        
+
         .info-item {
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 12px;
-            background: #f8f9fa;
-            border-radius: 8px;
+            gap: 12px;
+            padding: 14px;
+            background: var(--tinte-1);
+            border-radius: 10px;
         }
-        
+
         .info-item i {
             font-size: 20px;
-            color: var(--primary-color);
-        }
-        
-        .info-label {
-            font-size: 11px;
-            color: #718096;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        .info-value {
-            font-weight: 600;
-            color: #2d3748;
-        }
-        
-        .sede-metrics {
-            display: flex;
-            gap: 20px;
-            padding: 15px;
-            background: #f8f9fa;
-            border-radius: 10px;
-            margin-top: 15px;
-        }
-        
-        .metric {
-            flex: 1;
+            color: var(--color-6);
+            width: 24px;
             text-align: center;
         }
-        
-        .metric-value {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--primary-color);
+
+        .info-label {
+            font-size: 11px;
+            color: var(--tinte-7);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
         }
-        
+
+        .info-value {
+            font-weight: 700;
+            color: var(--color-10);
+            font-size: 14px;
+        }
+
+        .sede-metrics {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            padding: 18px;
+            background: var(--tinte-1);
+            border-radius: 12px;
+            margin-top: 16px;
+        }
+
+        .metric {
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--color-7);
+        }
+
         .metric-label {
             font-size: 11px;
-            color: #718096;
+            color: var(--tinte-7);
             text-transform: uppercase;
+            font-weight: 600;
+            margin-top: 4px;
         }
-        
+
+        .sede-alert {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 18px;
+            border-radius: 10px;
+            margin-top: 16px;
+            font-size: 14px;
+        }
+
+        .sede-alert.danger {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            color: var(--danger);
+        }
+
+        .sede-alert.warning {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+            color: #b45309;
+        }
+
+        .sede-alert i {
+            font-size: 22px;
+        }
+
         .sede-actions {
             display: flex;
             gap: 10px;
-            margin-top: 15px;
+            margin-top: 18px;
+            flex-wrap: wrap;
         }
-        
-        /* REFRESH ANIMATION */
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+
+        .btn-action {
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 13px;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+            cursor: pointer;
         }
-        
-        .rotating {
-            animation: rotate 1s linear infinite;
+
+        .btn-action:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-action-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-action-danger:hover {
+            background: #dc2626;
+        }
+
+        .btn-action-warning {
+            background: var(--warning);
+            color: white;
+        }
+
+        .btn-action-warning:hover {
+            background: #d97706;
+        }
+
+        .btn-action-outline {
+            background: white;
+            border: 2px solid var(--tinte-2);
+            color: var(--tinte-8);
+        }
+
+        .btn-action-outline:hover {
+            border-color: var(--color-6);
+            color: var(--color-7);
+        }
+
+        /* ==========================================================
+           OVERLAY & RESPONSIVE
+        ========================================================== */
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.55);
+            z-index: 1050;
+            display: none;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        .muted {
+            color: var(--tinte-6);
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .text-danger-custom {
+            color: var(--danger) !important;
+        }
+
+        .text-warning-custom {
+            color: var(--warning) !important;
+        }
+
+        .text-success-custom {
+            color: var(--success) !important;
+        }
+
+        @media (max-width: 1200px) {
+            .status-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .sede-metrics {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 992px) {
+            :root {
+                --sidebar-width: 260px;
+            }
+
+            .sede-info {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-110%);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main {
+                margin-left: 0;
+            }
+
+            .mobile-toggle {
+                display: inline-block;
+            }
+
+            .status-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .status-value {
+                font-size: 26px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .topbar h1 {
+                font-size: 17px;
+            }
+
+            .btn-outline span,
+            .btn-primary-corp span {
+                display: none;
+            }
+
+            .status-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .sede-metrics {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .sede-actions {
+                flex-direction: column;
+            }
+
+            .btn-action {
+                justify-content: center;
+            }
         }
     </style>
 </head>
+
 <body>
     <!-- SIDEBAR -->
-    <div class="sidebar">
+    <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <i class="bi bi-shield-check" style="font-size: 48px;"></i>
-            <h4 style="margin:0; font-weight:700; font-size:22px;">TRIMAX</h4>
-            <p style="margin:5px 0 0 0; font-size:11px; opacity:0.8;">Sistema de Tickets y Alarmas</p>
+            <div class="logo">
+                <i class="bi bi-shield-check"></i>
+                <div>
+                    <h4>TRIMAX</h4>
+                    <p>Sistema de Tickets</p>
+                </div>
+            </div>
         </div>
-        
-        <div style="padding: 20px 0;">
+
+        <nav class="menu">
             <div class="menu-section">Principal</div>
-            <a href="HTML_02_Dashboard_Admin.html" class="menu-item">
+            <a class="menu-item" href="dashboard.html">
                 <i class="bi bi-speedometer2"></i>
                 <span>Dashboard</span>
             </a>
-            <a href="HTML_03_Tickets_Lista.html" class="menu-item">
+            <a class="menu-item" href="tickets.html">
                 <i class="bi bi-ticket-perforated"></i>
                 <span>Tickets</span>
             </a>
-            
+
             <div class="menu-section">Monitoreo</div>
-            <a href="HTML_04_Monitoreo.html" class="menu-item active">
+            <a class="menu-item active" href="monitoreo.html">
                 <i class="bi bi-display"></i>
                 <span>Monitoreo de Sedes</span>
             </a>
-            <a href="HTML_05_Alarmas.html" class="menu-item">
+            <a class="menu-item" href="alarmas.html">
                 <i class="bi bi-bell"></i>
                 <span>Alarmas</span>
             </a>
-            
+
             <div class="menu-section">Administración</div>
-            <a href="HTML_06_Sedes.html" class="menu-item">
+            <a class="menu-item" href="sedes.html">
                 <i class="bi bi-building"></i>
-                <span>Gestión de Sedes</span>
+                <span>Sedes</span>
             </a>
-            <a href="HTML_07_Usuarios.html" class="menu-item">
+            <a class="menu-item" href="usuarios.html">
                 <i class="bi bi-people"></i>
                 <span>Usuarios</span>
             </a>
+            <a class="menu-item" href="#">
+                <i class="bi bi-gear"></i>
+                <span>Configuración</span>
+            </a>
+
+            <div class="menu-section">Reportes</div>
+            <a class="menu-item" href="#">
+                <i class="bi bi-graph-up"></i>
+                <span>Estadísticas</span>
+            </a>
+            <a class="menu-item" href="#">
+                <i class="bi bi-file-earmark-text"></i>
+                <span>Reportes SLA</span>
+            </a>
+        </nav>
+
+        <div class="user-info">
+            <div class="avatar">A</div>
+            <div class="user-details">
+                <h6>Admin Sistema</h6>
+                <p>Administrador</p>
+            </div>
+            <a href="#" style="margin-left:auto; color:rgba(255,255,255,0.9)">
+                <i class="bi bi-box-arrow-right" style="font-size:18px"></i>
+            </a>
         </div>
-    </div>
-    
-    <!-- MAIN CONTENT -->
-    <div class="main-content">
-        <div class="top-navbar">
-            <div class="d-flex justify-content-between align-items-center">
-                <div>
-                    <h1 style="margin:0; font-size:28px; font-weight:700;">
-                        <i class="bi bi-display"></i> Monitoreo en Tiempo Real
-                    </h1>
-                    <p class="text-muted mb-0">Estado de todas las sedes conectadas</p>
-                </div>
-                <div>
-                    <button class="btn btn-outline-primary me-2">
-                        <i class="bi bi-arrow-clockwise"></i> Actualizar
-                    </button>
-                    <button class="btn btn-primary" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none;">
-                        <i class="bi bi-gear"></i> Configurar
-                    </button>
+    </aside>
+
+    <!-- OVERLAY -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- MAIN -->
+    <div class="main">
+        <!-- TOPBAR -->
+        <div class="topbar">
+            <div class="container-fluid">
+                <div class="row align-items-center g-3">
+                    <div class="col-12 col-lg-6">
+                        <div class="d-flex align-items-center gap-3">
+                            <button class="mobile-toggle" id="btnToggle">
+                                <i class="bi bi-list"></i>
+                            </button>
+                            <div>
+                                <h1>
+                                    <i class="bi bi-display"></i>
+                                    <span>Monitoreo en Tiempo Real</span>
+                                </h1>
+                                <p class="subtitle muted">Estado de todas las sedes conectadas</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6">
+                        <div class="d-flex align-items-center justify-content-lg-end gap-2 flex-wrap">
+                            <button class="btn-outline" id="btnRefresh">
+                                <i class="bi bi-arrow-clockwise"></i>
+                                <span>Actualizar</span>
+                            </button>
+                            <button class="btn-primary-corp">
+                                <i class="bi bi-gear"></i>
+                                <span>Configurar</span>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        
-        <div class="content-area">
+
+        <!-- CONTENT -->
+        <div class="content">
             <!-- STATUS OVERVIEW -->
             <div class="status-overview">
-                <h5 style="margin-bottom: 25px; font-weight: 700;">
-                    <i class="bi bi-graph-up"></i> Resumen General
-                </h5>
+                <h5><i class="bi bi-graph-up"></i> Resumen General</h5>
                 <div class="status-grid">
                     <div class="status-item online">
                         <div class="status-icon">
-                            <i class="bi bi-check-circle-fill" style="color: #28a745;"></i>
+                            <i class="bi bi-check-circle-fill" style="color: var(--success);"></i>
                         </div>
-                        <div class="status-value" style="color: #28a745;">12</div>
-                        <div class="status-label" style="color: #28a745;">Online</div>
+                        <div class="status-value" style="color: var(--success);">12</div>
+                        <div class="status-label" style="color: var(--success);">Online</div>
                     </div>
                     <div class="status-item offline">
                         <div class="status-icon">
-                            <i class="bi bi-x-circle-fill" style="color: #dc3545;"></i>
+                            <i class="bi bi-x-circle-fill" style="color: var(--danger);"></i>
                         </div>
-                        <div class="status-value" style="color: #dc3545;">2</div>
-                        <div class="status-label" style="color: #dc3545;">Offline</div>
+                        <div class="status-value" style="color: var(--danger);">2</div>
+                        <div class="status-label" style="color: var(--danger);">Offline</div>
                     </div>
                     <div class="status-item degraded">
                         <div class="status-icon">
-                            <i class="bi bi-exclamation-triangle-fill" style="color: #ffc107;"></i>
+                            <i class="bi bi-exclamation-triangle-fill" style="color: var(--warning);"></i>
                         </div>
-                        <div class="status-value" style="color: #ffc107;">1</div>
-                        <div class="status-label" style="color: #ffc107;">Degradado</div>
+                        <div class="status-value" style="color: var(--warning);">1</div>
+                        <div class="status-label" style="color: var(--warning);">Degradado</div>
                     </div>
-                    <div class="status-item" style="border-color: #667eea; background: rgba(102, 126, 234, 0.05);">
+                    <div class="status-item uptime">
                         <div class="status-icon">
-                            <i class="bi bi-speedometer2" style="color: #667eea;"></i>
+                            <i class="bi bi-speedometer2" style="color: var(--color-6);"></i>
                         </div>
-                        <div class="status-value" style="color: #667eea;">98.5%</div>
-                        <div class="status-label" style="color: #667eea;">Uptime</div>
+                        <div class="status-value" style="color: var(--color-6);">98.5%</div>
+                        <div class="status-label" style="color: var(--color-6);">Uptime</div>
                     </div>
                 </div>
             </div>
-            
+
             <!-- SEDES LIST -->
-            <h5 class="mb-4" style="font-weight: 700;">
-                <i class="bi bi-building"></i> Estado de Sedes
-                <span class="badge bg-secondary ms-2">15 Sedes</span>
-            </h5>
-            
+            <div class="sedes-header">
+                <h5><i class="bi bi-building"></i> Estado de Sedes</h5>
+                <span class="badge">15 Sedes</span>
+            </div>
+
             <!-- SEDE OFFLINE - CRÍTICO -->
             <div class="sede-card offline">
                 <div class="sede-header">
                     <div>
-                        <div class="sede-code">AQP01</div>
-                        <div class="sede-title">Sede Arequipa</div>
-                        <p class="text-muted mb-0" style="font-size: 14px;">
+                        <span class="sede-code">AQP01</span>
+                        <h3 class="sede-title">Sede Arequipa</h3>
+                        <p class="sede-location">
                             <i class="bi bi-geo-alt"></i> Calle Comercio 456, Arequipa
                         </p>
                     </div>
@@ -422,7 +956,7 @@
                         OFFLINE
                     </div>
                 </div>
-                
+
                 <div class="sede-info">
                     <div class="info-item">
                         <i class="bi bi-hdd-network"></i>
@@ -435,7 +969,7 @@
                         <i class="bi bi-clock-history"></i>
                         <div>
                             <div class="info-label">Última Verificación</div>
-                            <div class="info-value text-danger">Hace 5 min</div>
+                            <div class="info-value text-danger-custom">Hace 5 min</div>
                         </div>
                     </div>
                     <div class="info-item">
@@ -446,42 +980,42 @@
                         </div>
                     </div>
                     <div class="info-item">
-                        <i class="bi bi-exclamation-triangle-fill text-danger"></i>
+                        <i class="bi bi-exclamation-triangle-fill text-danger-custom"></i>
                         <div>
                             <div class="info-label">Estado</div>
-                            <div class="info-value text-danger">Caída detectada</div>
+                            <div class="info-value text-danger-custom">Caída detectada</div>
                         </div>
                     </div>
                 </div>
-                
-                <div class="alert alert-danger d-flex align-items-center mb-0 mt-3" style="border-radius: 10px;">
-                    <i class="bi bi-exclamation-triangle-fill me-2" style="font-size: 24px;"></i>
+
+                <div class="sede-alert danger">
+                    <i class="bi bi-exclamation-triangle-fill"></i>
                     <div>
-                        <strong>Alerta Crítica:</strong> Se ha generado automáticamente el ticket 
+                        <strong>Alerta Crítica:</strong> Se ha generado automáticamente el ticket
                         <strong>TKT-2024-00156</strong> y se han enviado notificaciones.
                     </div>
                 </div>
-                
+
                 <div class="sede-actions">
-                    <button class="btn btn-danger">
+                    <button class="btn-action btn-action-danger">
                         <i class="bi bi-arrow-clockwise"></i> Forzar Check
                     </button>
-                    <button class="btn btn-outline-primary">
+                    <button class="btn-action btn-action-outline">
                         <i class="bi bi-ticket-perforated"></i> Ver Ticket
                     </button>
-                    <button class="btn btn-outline-secondary">
+                    <button class="btn-action btn-action-outline">
                         <i class="bi bi-graph-up"></i> Historial
                     </button>
                 </div>
             </div>
-            
+
             <!-- SEDE ONLINE -->
             <div class="sede-card online">
                 <div class="sede-header">
                     <div>
-                        <div class="sede-code">LIM01</div>
-                        <div class="sede-title">Sede Principal - Lima</div>
-                        <p class="text-muted mb-0" style="font-size: 14px;">
+                        <span class="sede-code">LIM01</span>
+                        <h3 class="sede-title">Sede Principal - Lima</h3>
+                        <p class="sede-location">
                             <i class="bi bi-geo-alt"></i> Av. Principal 123, Lima
                         </p>
                     </div>
@@ -490,7 +1024,7 @@
                         ONLINE
                     </div>
                 </div>
-                
+
                 <div class="sede-info">
                     <div class="info-item">
                         <i class="bi bi-hdd-network"></i>
@@ -503,7 +1037,7 @@
                         <i class="bi bi-clock-history"></i>
                         <div>
                             <div class="info-label">Última Verificación</div>
-                            <div class="info-value text-success">Hace 1 min</div>
+                            <div class="info-value text-success-custom">Hace 1 min</div>
                         </div>
                     </div>
                     <div class="info-item">
@@ -514,14 +1048,14 @@
                         </div>
                     </div>
                     <div class="info-item">
-                        <i class="bi bi-check-circle-fill text-success"></i>
+                        <i class="bi bi-check-circle-fill text-success-custom"></i>
                         <div>
                             <div class="info-label">Servicios</div>
                             <div class="info-value">Web, ERP, POS</div>
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="sede-metrics">
                     <div class="metric">
                         <div class="metric-value">99.8%</div>
@@ -540,27 +1074,27 @@
                         <div class="metric-label">Incidentes</div>
                     </div>
                 </div>
-                
+
                 <div class="sede-actions">
-                    <button class="btn btn-outline-primary">
+                    <button class="btn-action btn-action-outline">
                         <i class="bi bi-arrow-clockwise"></i> Forzar Check
                     </button>
-                    <button class="btn btn-outline-secondary">
+                    <button class="btn-action btn-action-outline">
                         <i class="bi bi-graph-up"></i> Historial
                     </button>
-                    <button class="btn btn-outline-secondary">
+                    <button class="btn-action btn-action-outline">
                         <i class="bi bi-gear"></i> Configurar
                     </button>
                 </div>
             </div>
-            
+
             <!-- SEDE DEGRADED -->
             <div class="sede-card degraded">
                 <div class="sede-header">
                     <div>
-                        <div class="sede-code">CUS01</div>
-                        <div class="sede-title">Sede Cusco</div>
-                        <p class="text-muted mb-0" style="font-size: 14px;">
+                        <span class="sede-code">CUS01</span>
+                        <h3 class="sede-title">Sede Cusco</h3>
+                        <p class="sede-location">
                             <i class="bi bi-geo-alt"></i> Plaza de Armas, Cusco
                         </p>
                     </div>
@@ -569,7 +1103,7 @@
                         DEGRADADO
                     </div>
                 </div>
-                
+
                 <div class="sede-info">
                     <div class="info-item">
                         <i class="bi bi-hdd-network"></i>
@@ -589,43 +1123,43 @@
                         <i class="bi bi-speedometer"></i>
                         <div>
                             <div class="info-label">Latencia</div>
-                            <div class="info-value text-warning">850ms</div>
+                            <div class="info-value text-warning-custom">850ms</div>
                         </div>
                     </div>
                     <div class="info-item">
-                        <i class="bi bi-exclamation-triangle text-warning"></i>
+                        <i class="bi bi-exclamation-triangle text-warning-custom"></i>
                         <div>
                             <div class="info-label">Estado</div>
                             <div class="info-value">Alta latencia</div>
                         </div>
                     </div>
                 </div>
-                
-                <div class="alert alert-warning d-flex align-items-center mb-0 mt-3" style="border-radius: 10px;">
-                    <i class="bi bi-exclamation-triangle me-2" style="font-size: 24px;"></i>
+
+                <div class="sede-alert warning">
+                    <i class="bi bi-exclamation-triangle"></i>
                     <div>
-                        <strong>Advertencia:</strong> La conexión presenta alta latencia. 
+                        <strong>Advertencia:</strong> La conexión presenta alta latencia.
                         Se está monitoreando de cerca.
                     </div>
                 </div>
-                
+
                 <div class="sede-actions">
-                    <button class="btn btn-warning">
+                    <button class="btn-action btn-action-warning">
                         <i class="bi bi-arrow-clockwise"></i> Forzar Check
                     </button>
-                    <button class="btn btn-outline-secondary">
+                    <button class="btn-action btn-action-outline">
                         <i class="bi bi-graph-up"></i> Historial
                     </button>
                 </div>
             </div>
-            
-            <!-- MORE SEDES ONLINE -->
+
+            <!-- SEDE ONLINE - TRUJILLO -->
             <div class="sede-card online">
                 <div class="sede-header">
                     <div>
-                        <div class="sede-code">TRU01</div>
-                        <div class="sede-title">Sede Trujillo</div>
-                        <p class="text-muted mb-0" style="font-size: 14px;">
+                        <span class="sede-code">TRU01</span>
+                        <h3 class="sede-title">Sede Trujillo</h3>
+                        <p class="sede-location">
                             <i class="bi bi-geo-alt"></i> Av. Larco 789, Trujillo
                         </p>
                     </div>
@@ -634,7 +1168,7 @@
                         ONLINE
                     </div>
                 </div>
-                
+
                 <div class="sede-metrics">
                     <div class="metric">
                         <div class="metric-value">99.5%</div>
@@ -658,5 +1192,46 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Sidebar toggle
+        const btnToggle = document.getElementById('btnToggle');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+
+        btnToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+        });
+
+        overlay.addEventListener('click', () => {
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+        });
+
+        document.querySelectorAll('.menu-item').forEach(it => {
+            it.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    sidebar.classList.remove('active');
+                    overlay.classList.remove('active');
+                }
+            });
+        });
+
+        // Refresh button animation
+        const btnRefresh = document.getElementById('btnRefresh');
+        btnRefresh.addEventListener('click', function () {
+            const icon = this.querySelector('i');
+            icon.style.animation = 'spin 1s linear';
+            setTimeout(() => {
+                icon.style.animation = '';
+            }, 1000);
+        });
+
+        // Add spin animation
+        const style = document.createElement('style');
+        style.textContent = '@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }';
+        document.head.appendChild(style);
+    </script>
 </body>
+
 </html>
