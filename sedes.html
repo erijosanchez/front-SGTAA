@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Sedes - Sistema Trimax</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --color-1: #E6F5FF; --color-2: #B8E4FF; --color-3: #8AD2FF; --color-4: #5CC0FF;
+            --color-5: #2EAFFF; --color-6: #009DFF; --color-7: #0081D1; --color-8: #0065A3;
+            --color-9: #004875; --color-10: #003A5D; --color-11: #00101A;
+            --tinte-1: #E8EBEF; --tinte-2: #D1D8E0; --tinte-6: #7A8DA4; --tinte-7: #657C95;
+            --sidebar-width: 280px; --radius-lg: 14px;
+            --success: #10b981; --danger: #ef4444; --warning: #f59e0b;
+        }
+        * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        body { margin: 0; font-family: "Inter", "Segoe UI", sans-serif; background: linear-gradient(180deg, var(--color-10), var(--color-11)); min-height: 100vh; }
+        a { text-decoration: none; color: inherit; }
+
+        .sidebar { position: fixed; top: 0; left: 0; height: 100vh; width: var(--sidebar-width); background: linear-gradient(180deg, var(--color-9), var(--color-11)); color: white; overflow-y: auto; z-index: 1100; padding-bottom: 90px; transition: transform .32s ease; box-shadow: 8px 0 30px rgba(0,0,0,0.25); }
+        .sidebar::-webkit-scrollbar { width: 5px; }
+        .sidebar::-webkit-scrollbar-thumb { background: var(--color-7); border-radius: 3px; }
+        .sidebar .sidebar-header { padding: 28px 22px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+        .sidebar .logo { display: flex; gap: 12px; align-items: center; justify-content: center; }
+        .sidebar .logo i { font-size: 36px; color: var(--color-4); background: rgba(255,255,255,0.05); padding: 8px; border-radius: 10px; }
+        .sidebar h4 { margin: 0; font-size: 18px; font-weight: 700; color: white; letter-spacing: 1px; }
+        .sidebar p { margin: 0; font-size: 12px; color: var(--color-2); }
+        .sidebar .menu { padding: 16px 0; margin-top: 10px; }
+        .sidebar .menu-section { padding: 12px 22px; font-size: 11px; text-transform: uppercase; color: var(--color-2); opacity: 0.7; letter-spacing: 1px; font-weight: 700; }
+        .sidebar .menu-item { display: flex; align-items: center; gap: 12px; padding: 12px 22px; margin: 6px 12px; border-radius: 10px; color: rgba(255,255,255,0.9); font-weight: 600; transition: all .18s ease; border-left: 3px solid transparent; }
+        .sidebar .menu-item i { font-size: 18px; width: 22px; text-align: center; color: var(--color-3); }
+        .sidebar .menu-item:hover { transform: translateX(6px); background: rgba(255,255,255,0.03); border-left-color: var(--color-4); }
+        .sidebar .menu-item.active { background: linear-gradient(90deg, rgba(255,255,255,0.03), transparent); border-left-color: var(--color-5); }
+        .sidebar .user-info { position: fixed; bottom: 0; left: 0; width: var(--sidebar-width); padding: 18px; border-top: 1px solid rgba(255,255,255,0.06); display: flex; gap: 12px; align-items: center; background: rgba(0,0,0,0.2); backdrop-filter: blur(10px); }
+        .avatar { width: 46px; height: 46px; border-radius: 50%; background: linear-gradient(135deg, var(--color-6), var(--color-8)); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; }
+        .user-details h6 { margin: 0; font-size: 14px; color: white; }
+        .user-details p { margin: 0; font-size: 12px; color: var(--color-2); }
+
+        .main { margin-left: var(--sidebar-width); min-height: 100vh; background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); padding-bottom: 60px; transition: margin-left .32s ease; }
+        .topbar { padding: 20px 28px; background: rgba(255,255,255,0.03); border-bottom: 1px solid rgba(0,0,0,0.06); position: sticky; top: 0; z-index: 900; backdrop-filter: blur(6px); }
+        .topbar h1 { margin: 0; font-size: 20px; font-weight: 700; color: var(--color-1); display: flex; gap: 10px; align-items: center; }
+        .topbar .subtitle { margin: 4px 0 0 0; color: var(--tinte-6); font-size: 13px; }
+        .btn-outline { background: transparent; border: 1px solid rgba(255,255,255,0.08); color: var(--color-1); padding: 10px 14px; border-radius: 10px; font-weight: 600; display: inline-flex; gap: 8px; align-items: center; transition: all 0.2s ease; }
+        .btn-outline:hover { transform: translateY(-3px); background: rgba(255,255,255,0.05); }
+        .btn-primary-corp { background: linear-gradient(135deg, var(--color-6), var(--color-8)); color: white; padding: 10px 16px; border-radius: 10px; border: none; font-weight: 700; display: inline-flex; gap: 8px; align-items: center; transition: all 0.2s ease; }
+        .btn-primary-corp:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,0,0,0.18); color: white; }
+        .mobile-toggle { display: none; background: var(--color-6); color: white; border: none; padding: 8px 12px; border-radius: 8px; font-size: 20px; }
+        .content { padding: 26px; }
+        .muted { color: var(--tinte-6); font-weight: 600; font-size: 13px; }
+
+        /* TABLE CARD */
+        .table-card { background: white; border-radius: var(--radius-lg); padding: 24px; box-shadow: 0 8px 22px rgba(0,0,0,0.08); }
+        .table-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 15px; }
+        .table-header h5 { margin: 0; font-weight: 700; color: var(--color-10); display: flex; align-items: center; gap: 10px; }
+        .table-header h5 i { color: var(--color-6); }
+        .search-box { display: flex; gap: 10px; }
+        .search-box input { padding: 10px 16px; border: 2px solid var(--tinte-2); border-radius: 10px; font-size: 14px; min-width: 250px; }
+        .search-box input:focus { outline: none; border-color: var(--color-6); }
+
+        .custom-table { width: 100%; border-collapse: collapse; }
+        .custom-table thead th { background: linear-gradient(135deg, var(--color-9), var(--color-10)); color: white; padding: 14px 16px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700; text-align: left; }
+        .custom-table tbody td { padding: 16px; border-bottom: 1px solid var(--tinte-1); vertical-align: middle; }
+        .custom-table tbody tr:hover { background: var(--color-1); }
+
+        .sede-info { display: flex; align-items: center; gap: 12px; }
+        .sede-avatar { width: 45px; height: 45px; border-radius: 10px; background: linear-gradient(135deg, var(--color-6), var(--color-8)); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 14px; }
+        .sede-name { font-weight: 700; color: var(--color-10); }
+        .sede-code { font-family: 'Courier New', monospace; font-size: 12px; color: var(--color-7); background: var(--color-1); padding: 2px 8px; border-radius: 4px; }
+
+        .status-badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 20px; font-weight: 700; font-size: 11px; text-transform: uppercase; }
+        .status-badge.online { background: rgba(16, 185, 129, 0.1); color: var(--success); }
+        .status-badge.offline { background: rgba(239, 68, 68, 0.1); color: var(--danger); }
+        .status-badge.degraded { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
+        .status-dot { width: 8px; height: 8px; border-radius: 50%; animation: pulse 2s infinite; }
+        .status-dot.online { background: var(--success); }
+        .status-dot.offline { background: var(--danger); }
+        .status-dot.degraded { background: var(--warning); }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+        .table-actions { display: flex; gap: 6px; }
+        .btn-table { padding: 8px 12px; border-radius: 8px; border: none; font-size: 14px; cursor: pointer; transition: all 0.2s ease; }
+        .btn-table:hover { transform: scale(1.1); }
+        .btn-table-primary { background: var(--color-6); color: white; }
+        .btn-table-outline { background: white; border: 2px solid var(--tinte-2); color: var(--color-10); }
+        .btn-table-danger { background: var(--danger); color: white; }
+
+        .pagination-wrapper { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; flex-wrap: wrap; gap: 15px; }
+        .pagination-info { color: var(--tinte-7); font-size: 14px; }
+        .pagination { margin: 0; }
+        .pagination .page-link { border: none; color: var(--color-8); font-weight: 600; padding: 10px 16px; border-radius: 8px; margin: 0 3px; }
+        .pagination .page-item.active .page-link { background: linear-gradient(135deg, var(--color-6), var(--color-8)); color: white; }
+
+        .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 1050; display: none; }
+        .overlay.active { display: block; }
+
+        @media (max-width: 768px) {
+            .sidebar { transform: translateX(-110%); }
+            .sidebar.active { transform: translateX(0); }
+            .main { margin-left: 0; }
+            .mobile-toggle { display: inline-block; }
+            .search-box input { min-width: 150px; }
+            .custom-table { font-size: 13px; }
+        }
+        @media (max-width: 576px) {
+            .topbar h1 { font-size: 17px; }
+            .btn-outline span, .btn-primary-corp span { display: none; }
+            .table-responsive { overflow-x: auto; }
+            .custom-table { min-width: 700px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <i class="bi bi-shield-check"></i>
+                <div><h4>TRIMAX</h4><p>Sistema de Tickets</p></div>
+            </div>
+        </div>
+        <nav class="menu">
+            <div class="menu-section">Principal</div>
+            <a class="menu-item" href="dashboard.html"><i class="bi bi-speedometer2"></i><span>Dashboard</span></a>
+            <a class="menu-item" href="tickets.html"><i class="bi bi-ticket-perforated"></i><span>Tickets</span></a>
+            <div class="menu-section">Monitoreo</div>
+            <a class="menu-item" href="monitoreo.html"><i class="bi bi-display"></i><span>Monitoreo de Sedes</span></a>
+            <a class="menu-item" href="alarmas.html"><i class="bi bi-bell"></i><span>Alarmas</span></a>
+            <div class="menu-section">Administración</div>
+            <a class="menu-item active" href="sedes.html"><i class="bi bi-building"></i><span>Sedes</span></a>
+            <a class="menu-item" href="usuarios.html"><i class="bi bi-people"></i><span>Usuarios</span></a>
+            <a class="menu-item" href="#"><i class="bi bi-gear"></i><span>Configuración</span></a>
+            <div class="menu-section">Reportes</div>
+            <a class="menu-item" href="#"><i class="bi bi-graph-up"></i><span>Estadísticas</span></a>
+            <a class="menu-item" href="#"><i class="bi bi-file-earmark-text"></i><span>Reportes SLA</span></a>
+        </nav>
+        <div class="user-info">
+            <div class="avatar">A</div>
+            <div class="user-details"><h6>Admin Sistema</h6><p>Administrador</p></div>
+            <a href="#" style="margin-left:auto; color:rgba(255,255,255,0.9)"><i class="bi bi-box-arrow-right" style="font-size:18px"></i></a>
+        </div>
+    </aside>
+
+    <div class="overlay" id="overlay"></div>
+
+    <!-- MAIN -->
+    <div class="main">
+        <div class="topbar">
+            <div class="container-fluid">
+                <div class="row align-items-center g-3">
+                    <div class="col-12 col-lg-6">
+                        <div class="d-flex align-items-center gap-3">
+                            <button class="mobile-toggle" id="btnToggle"><i class="bi bi-list"></i></button>
+                            <div>
+                                <h1><i class="bi bi-building"></i> <span>Gestión de Sedes</span></h1>
+                                <p class="subtitle muted">Administra todas las sedes del sistema</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6">
+                        <div class="d-flex align-items-center justify-content-lg-end gap-2 flex-wrap">
+                            <button class="btn-outline"><i class="bi bi-download"></i> <span>Exportar</span></button>
+                            <button class="btn-primary-corp"><i class="bi bi-plus-circle"></i> <span>Nueva Sede</span></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="table-card">
+                <div class="table-header">
+                    <h5><i class="bi bi-building"></i> Lista de Sedes</h5>
+                    <div class="search-box">
+                        <input type="text" placeholder="🔍 Buscar sede...">
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="custom-table">
+                        <thead>
+                            <tr>
+                                <th>Sede</th>
+                                <th>Ubicación</th>
+                                <th>IP Principal</th>
+                                <th>Estado</th>
+                                <th>Uptime</th>
+                                <th>Última Verificación</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="sede-info">
+                                        <div class="sede-avatar">LIM</div>
+                                        <div>
+                                            <div class="sede-name">Sede Principal - Lima</div>
+                                            <span class="sede-code">LIM01</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Av. Principal 123, Lima</td>
+                                <td><code>8.8.8.8</code></td>
+                                <td><span class="status-badge online"><span class="status-dot online"></span> Online</span></td>
+                                <td><strong style="color: var(--success);">99.8%</strong></td>
+                                <td>Hace 1 min</td>
+                                <td class="table-actions">
+                                    <button class="btn-table btn-table-primary" title="Ver"><i class="bi bi-eye"></i></button>
+                                    <button class="btn-table btn-table-outline" title="Editar"><i class="bi bi-pencil"></i></button>
+                                    <button class="btn-table btn-table-outline" title="Configurar"><i class="bi bi-gear"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="sede-info">
+                                        <div class="sede-avatar">AQP</div>
+                                        <div>
+                                            <div class="sede-name">Sede Arequipa</div>
+                                            <span class="sede-code">AQP01</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Calle Comercio 456, Arequipa</td>
+                                <td><code>192.168.1.10</code></td>
+                                <td><span class="status-badge offline"><span class="status-dot offline"></span> Offline</span></td>
+                                <td><strong style="color: var(--danger);">85.2%</strong></td>
+                                <td style="color: var(--danger);">Hace 5 min</td>
+                                <td class="table-actions">
+                                    <button class="btn-table btn-table-primary" title="Ver"><i class="bi bi-eye"></i></button>
+                                    <button class="btn-table btn-table-outline" title="Editar"><i class="bi bi-pencil"></i></button>
+                                    <button class="btn-table btn-table-danger" title="Forzar Check"><i class="bi bi-arrow-clockwise"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="sede-info">
+                                        <div class="sede-avatar">CUS</div>
+                                        <div>
+                                            <div class="sede-name">Sede Cusco</div>
+                                            <span class="sede-code">CUS01</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Plaza de Armas, Cusco</td>
+                                <td><code>1.1.1.1</code></td>
+                                <td><span class="status-badge degraded"><span class="status-dot degraded"></span> Degradado</span></td>
+                                <td><strong style="color: var(--warning);">92.5%</strong></td>
+                                <td>Hace 30 seg</td>
+                                <td class="table-actions">
+                                    <button class="btn-table btn-table-primary" title="Ver"><i class="bi bi-eye"></i></button>
+                                    <button class="btn-table btn-table-outline" title="Editar"><i class="bi bi-pencil"></i></button>
+                                    <button class="btn-table btn-table-outline" title="Configurar"><i class="bi bi-gear"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="sede-info">
+                                        <div class="sede-avatar">TRU</div>
+                                        <div>
+                                            <div class="sede-name">Sede Trujillo</div>
+                                            <span class="sede-code">TRU01</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Av. Larco 789, Trujillo</td>
+                                <td><code>200.48.10.50</code></td>
+                                <td><span class="status-badge online"><span class="status-dot online"></span> Online</span></td>
+                                <td><strong style="color: var(--success);">99.5%</strong></td>
+                                <td>Hace 2 min</td>
+                                <td class="table-actions">
+                                    <button class="btn-table btn-table-primary" title="Ver"><i class="bi bi-eye"></i></button>
+                                    <button class="btn-table btn-table-outline" title="Editar"><i class="bi bi-pencil"></i></button>
+                                    <button class="btn-table btn-table-outline" title="Configurar"><i class="bi bi-gear"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="sede-info">
+                                        <div class="sede-avatar">PIU</div>
+                                        <div>
+                                            <div class="sede-name">Sede Piura</div>
+                                            <span class="sede-code">PIU01</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Calle Grau 321, Piura</td>
+                                <td><code>200.60.20.30</code></td>
+                                <td><span class="status-badge online"><span class="status-dot online"></span> Online</span></td>
+                                <td><strong style="color: var(--success);">98.9%</strong></td>
+                                <td>Hace 1 min</td>
+                                <td class="table-actions">
+                                    <button class="btn-table btn-table-primary" title="Ver"><i class="bi bi-eye"></i></button>
+                                    <button class="btn-table btn-table-outline" title="Editar"><i class="bi bi-pencil"></i></button>
+                                    <button class="btn-table btn-table-outline" title="Configurar"><i class="bi bi-gear"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="pagination-wrapper">
+                    <span class="pagination-info">Mostrando 5 de 15 sedes</span>
+                    <nav>
+                        <ul class="pagination">
+                            <li class="page-item disabled"><a class="page-link" href="#"><i class="bi bi-chevron-left"></i></a></li>
+                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item"><a class="page-link" href="#"><i class="bi bi-chevron-right"></i></a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const btnToggle = document.getElementById('btnToggle');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        btnToggle.addEventListener('click', () => { sidebar.classList.toggle('active'); overlay.classList.toggle('active'); });
+        overlay.addEventListener('click', () => { sidebar.classList.remove('active'); overlay.classList.remove('active'); });
+    </script>
+</body>
+</html>
