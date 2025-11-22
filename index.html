@@ -83,7 +83,7 @@
             </div>
             <div style="margin-left:auto;">
                 <a href="#" title="Cerrar sesión" style="color:rgba(255,255,255,0.9)">
-                    <i class="bi bi-box-arrow-right" style="font-size:18px"></i>
+                    <i class="bi-box-arrow-right bi" style="font-size:18px"></i>
                 </a>
             </div>
         </div>
@@ -97,7 +97,7 @@
         <!-- TOPBAR -->
         <div class="topbar">
             <div class="container-fluid">
-                <div class="row align-items-center g-3">
+                <div class="align-items-center row g-3">
                     <!-- Columna izquierda: Toggle + Título -->
                     <div class="col-12 col-lg-6">
                         <div class="d-flex align-items-center gap-3">
@@ -116,17 +116,17 @@
 
                     <!-- Columna derecha: Última conexión + Acciones -->
                     <div class="col-12 col-lg-6">
-                        <div class="d-flex align-items-center justify-content-lg-end gap-2 flex-wrap">
-                            <div class="last-connection d-none d-xl-block me-2">
+                        <div class="d-flex flex-wrap justify-content-lg-end align-items-center gap-2">
+                            <div class="d-xl-block me-2 last-connection d-none">
                                 Última conexión: <strong>21 Nov 2025 — 09:45</strong>
                             </div>
                             <button class="btn-outline">
                                 <i class="bi bi-download"></i>
-                                <span class="d-none d-sm-inline">Exportar</span>
+                                <span class="d-sm-inline d-none">Exportar</span>
                             </button>
                             <button class="btn-primary">
                                 <i class="bi bi-plus-circle"></i>
-                                <span class="d-none d-sm-inline">Nuevo Ticket</span>
+                                <span class="d-sm-inline d-none">Nuevo Ticket</span>
                             </button>
                         </div>
                     </div>
@@ -261,7 +261,7 @@
             </div>
 
             <!-- ADDITIONAL STATS ROW -->
-            <div class="row g-3 g-lg-4 mt-1">
+            <div class="mt-1 row g-3 g-lg-4">
                 <div class="col-12 col-sm-6 col-lg-3">
                     <div class="card">
                         <div class="metric-label">Sedes Online</div>
@@ -271,7 +271,7 @@
                                 <i class="bi bi-display"></i>
                             </div>
                         </div>
-                        <div class="muted mt-2">
+                        <div class="mt-2 muted">
                             <i class="bi bi-check-circle" style="color:#06b26a;margin-right:8px"></i>
                             80% Uptime
                         </div>
@@ -282,7 +282,7 @@
                     <div class="card">
                         <div class="metric-label">Tiempo Respuesta</div>
                         <div style="font-size:20px;font-weight:800;color:var(--color-10);margin-top:8px;">45min</div>
-                        <div class="muted mt-2">
+                        <div class="mt-2 muted">
                             <i class="bi bi-arrow-down" style="color:#0b944f;margin-right:8px"></i>
                             -15min
                         </div>
@@ -293,7 +293,7 @@
                     <div class="card">
                         <div class="metric-label">Tiempo Resolución</div>
                         <div style="font-size:20px;font-weight:800;color:var(--color-10);margin-top:8px;">2.5h</div>
-                        <div class="muted mt-2">
+                        <div class="mt-2 muted">
                             <i class="bi bi-arrow-down" style="color:#0b944f;margin-right:8px"></i>
                             -30min
                         </div>
@@ -304,7 +304,7 @@
                     <div class="card">
                         <div class="metric-label">Alarmas Activas</div>
                         <div style="font-size:20px;font-weight:800;color:var(--color-10);margin-top:8px;">8</div>
-                        <div class="muted mt-2" style="color:#b45309;">
+                        <div class="mt-2 muted" style="color:#b45309;">
                             <i class="bi bi-bell" style="margin-right:8px"></i>
                             +3 hoy
                         </div>
@@ -320,18 +320,18 @@
                             <i class="bi bi-ticket-perforated" style="color:var(--color-6)"></i>
                             Tickets Recientes
                         </h5>
-                        <div class="d-flex gap-2 flex-wrap">
+                        <div class="d-flex flex-wrap gap-2">
                             <button class="btn-outline">
                                 <i class="bi bi-filter"></i>
-                                <span class="d-none d-sm-inline">Filtrar</span>
+                                <span class="d-sm-inline d-none">Filtrar</span>
                             </button>
                             <button class="btn-outline">
                                 <i class="bi bi-download"></i>
-                                <span class="d-none d-sm-inline">Exportar</span>
+                                <span class="d-sm-inline d-none">Exportar</span>
                             </button>
                             <button class="btn-primary">
                                 <i class="bi bi-plus-circle"></i>
-                                <span class="d-none d-sm-inline">Nuevo</span>
+                                <span class="d-sm-inline d-none">Nuevo</span>
                             </button>
                         </div>
                     </div>
@@ -358,14 +358,14 @@
                                     <td>
                                         <span style="display:inline-flex;align-items:center;">
                                             <span class="priority-dot" style="background:#ef4444"></span>
-                                            <span class="badge bg-danger">Crítica</span>
+                                            <span class="bg-danger badge">Crítica</span>
                                         </span>
                                     </td>
-                                    <td><span class="badge bg-warning text-dark">En Proceso</span></td>
+                                    <td><span class="bg-warning text-dark badge">En Proceso</span></td>
                                     <td>Carlos Técnico</td>
                                     <td>19/11/2024</td>
                                     <td class="table-actions">
-                                        <button class="btn btn-sm btn-outline-primary" title="Ver">
+                                        <button class="btn-outline-primary btn btn-sm" title="Ver">
                                             <i class="bi bi-eye"></i>
                                         </button>
                                         <button class="btn btn-sm btn-success" title="Cerrar">
@@ -381,7 +381,7 @@
                                     <td>
                                         <span style="display:inline-flex;align-items:center;">
                                             <span class="priority-dot" style="background:#f59e0b"></span>
-                                            <span class="badge bg-warning text-dark">Alta</span>
+                                            <span class="bg-warning text-dark badge">Alta</span>
                                         </span>
                                     </td>
                                     <td><span class="badge" style="background:var(--color-5); color:white;">En
@@ -389,7 +389,7 @@
                                     <td>Ana Soporte</td>
                                     <td>19/11/2024</td>
                                     <td class="table-actions">
-                                        <button class="btn btn-sm btn-outline-primary" title="Ver">
+                                        <button class="btn-outline-primary btn btn-sm" title="Ver">
                                             <i class="bi bi-eye"></i>
                                         </button>
                                         <button class="btn btn-sm btn-success" title="Cerrar">
@@ -405,14 +405,14 @@
                                     <td>
                                         <span style="display:inline-flex;align-items:center;">
                                             <span class="priority-dot" style="background:#10b981"></span>
-                                            <span class="badge bg-success">Baja</span>
+                                            <span class="bg-success badge">Baja</span>
                                         </span>
                                     </td>
-                                    <td><span class="badge bg-success">Resuelto</span></td>
+                                    <td><span class="bg-success badge">Resuelto</span></td>
                                     <td>Carlos Técnico</td>
                                     <td>18/11/2024</td>
                                     <td class="table-actions">
-                                        <button class="btn btn-sm btn-outline-primary" title="Ver">
+                                        <button class="btn-outline-primary btn btn-sm" title="Ver">
                                             <i class="bi bi-eye"></i>
                                         </button>
                                         <button class="btn btn-sm btn-secondary" title="Archivar">
@@ -428,7 +428,7 @@
                                     <td>
                                         <span style="display:inline-flex;align-items:center;">
                                             <span class="priority-dot" style="background:#f59e0b"></span>
-                                            <span class="badge bg-warning text-dark">Media</span>
+                                            <span class="bg-warning text-dark badge">Media</span>
                                         </span>
                                     </td>
                                     <td><span class="badge" style="background:var(--color-5); color:white;">En
@@ -436,7 +436,7 @@
                                     <td>Ana Soporte</td>
                                     <td>18/11/2024</td>
                                     <td class="table-actions">
-                                        <button class="btn btn-sm btn-outline-primary" title="Ver">
+                                        <button class="btn-outline-primary btn btn-sm" title="Ver">
                                             <i class="bi bi-eye"></i>
                                         </button>
                                         <button class="btn btn-sm btn-success" title="Cerrar">
@@ -452,7 +452,7 @@
                                     <td>
                                         <span style="display:inline-flex;align-items:center;">
                                             <span class="priority-dot" style="background:#10b981"></span>
-                                            <span class="badge bg-success">Baja</span>
+                                            <span class="bg-success badge">Baja</span>
                                         </span>
                                     </td>
                                     <td><span class="badge"
@@ -460,7 +460,7 @@
                                     <td>Sin asignar</td>
                                     <td>18/11/2024</td>
                                     <td class="table-actions">
-                                        <button class="btn btn-sm btn-outline-primary" title="Ver">
+                                        <button class="btn-outline-primary btn btn-sm" title="Ver">
                                             <i class="bi bi-eye"></i>
                                         </button>
                                         <button class="btn btn-sm btn-secondary" title="Asignar">
@@ -481,7 +481,7 @@
 
     <!-- SCRIPTS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
+    <script src="./assets/js/app.js"></script>
 </body>
 
 </html>
